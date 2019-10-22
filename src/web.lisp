@@ -52,16 +52,16 @@
     (unless project
       (throw-code 404))
 
-    (let ((dependencies
-            (mapcar (lambda (dep)
+    (let ((dependencies nil
+            #|(mapcar (lambda (dep)
                       (list :name (project-name dep)
                             :description (project-description dep)))
-                    (project-dependencies project)))
-          (dependees
-            (mapcar (lambda (dep)
+                    (project-dependencies project))|#)
+          (dependees nil
+            #|(mapcar (lambda (dep)
                       (list :name (project-name dep)
                             :description (project-description dep)))
-                    (project-dependees project))))
+                    (project-dependees project))|#))
       (render #P"project.html"
               `(:project-name ,project-name
                 :ql-dist-version ,(project-release-version project)
