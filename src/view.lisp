@@ -5,6 +5,7 @@
                 :*template-directory*)
   (:import-from :caveman2
                 :*response*
+		:*session*
                 :response-headers)
   (:import-from :djula
                 :add-template-directory
@@ -28,7 +29,7 @@
       (setf (gethash template-path *template-registry*) template))
     (apply #'djula:render-template*
            template nil
-           env)))
+           (append env `(:session ,*session*)))))
 
 (defun render-json (object)
   (setf (getf (response-headers *response*) :content-type) "application/json")
