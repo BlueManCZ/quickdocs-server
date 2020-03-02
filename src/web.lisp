@@ -37,7 +37,16 @@
             quickdocs-database.preference::*preference* nil))))
 (clear-routing-rules *web*)
 
+;;
+;; Clearing session
 
+(defun clear-session ()
+  (remhash :id *session*)
+  (remhash :login *session*)
+  (remhash :name *session*)
+  (remhash :html-url *session*)
+  (remhash :avatar-url *session*))
+  
 ;;
 ;; Routing rules
 
@@ -46,13 +55,46 @@
           (list :ql-dist-version (preference "ql-dist-version")
                 :app-env (appenv))))
 
+@route GET "/login/"
+(defun login ()
+  (redirect "/login/github"))
+
 @route GET "/login/github"
 (defun login-github (&key |code|)
-  (let* ((resp (dex:post (format nil "https://github.com/login/oauth/access_token?client_id=6b258428f6838326e122&client_secret=533aee14b023f36b560f4aeb7aada966943ca712&code=~A" |code|)))
-         (token (cadr (uiop:split-string (car (uiop:split-string resp :separator "&")) :separator "=")))
-         (data (dex:get "https://api.github.com/user" :headers `(("Authorization" . ,(format nil "token ~A" token))))))
-    (render #P"user.html"
-            (jonathan:parse data))))
+  (let ((oauth-url "https://github.com/login/oauth/")
+	(client-id "6b258428f6838326e122"))
+    (if (not |code|)
+	(redirect (format nil "~Aauthorize?client_id=~A" oauth-url client-id))
+      (let* ((url "https://api.github.com/user")
+	     (client-secret "533aee14b023f36b560f4aeb7aada966943ca712")
+	     (resp (dex:post (format nil "~Aaccess_token?client_id=~A&client_secret=~A&code=~A" oauth-url client-id client-secret |code|)))
+	     (token (second (uiop:split-string (car (uiop:split-string resp :separator "&")) :separator "=")))
+	     (data (dex:get url :headers `(("Authorization" . ,(format nil "token ~A" token)))))
+	     (json (jonathan:parse data)))
+
+	(let ((id (getf json :|id|))
+	      (login (getf json :|login|))
+	      (name (getf json :|name|))
+	      (html-url (getf json :|html_url|))
+	      (avatar-url (getf json :|avatar_url|)))
+	  (setf (gethash :id *session*) id)
+	  (setf (gethash :login *session*) login)
+	  (when name (setf (gethash :name *session*) name))
+	  (setf (gethash :html-url *session*) html-url)
+	  (setf (gethash :avatar-url *session*) avatar-url))
+	
+	(redirect "/account")))))
+
+@route GET "/account"
+(defun account ()
+  (if (not (gethash :id *session*))
+      (redirect "/login")
+    (render #P"user.html")))
+
+@route GET "/logout"
+(defun logout ()
+  (clear-session)
+  (redirect "/"))
 
 @route GET "/:project-name/"
 (defun project-page (&key project-name |force-raw|)

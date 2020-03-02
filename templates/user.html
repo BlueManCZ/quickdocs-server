@@ -1,3 +1,9 @@
-<p>Login: {{login}}<br>
-Email: {{email}}<br>
-Github page: <a href="{{html_url}}">{{html_url}}</a><br>
+<p>Login: {{session.login}}<br>
+Github page: <a href="{{session.html-url}}">{{session.html-url}}</a><br>
+<p><img src="{{session.avatar-url}}" style="width: 50px"></p>
+<p>Session: {{session}}<br>
+<b>Items in session:</b><br>
+{% for (x . y) in session %}
+{{x}}: {{y}}<br>
+{% endfor %}</p>
+<p><a href="/logout">Logout</a></p>
