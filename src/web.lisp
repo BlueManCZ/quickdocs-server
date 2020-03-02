@@ -46,8 +46,16 @@
           (list :ql-dist-version (preference "ql-dist-version")
                 :app-env (appenv))))
 
+@route GET "/login/github"
+(defun login-github (&key |code|)
+  (let* ((resp (dex:post (format nil "https://github.com/login/oauth/access_token?client_id=6b258428f6838326e122&client_secret=533aee14b023f36b560f4aeb7aada966943ca712&code=~A" |code|)))
+         (token (cadr (uiop:split-string (car (uiop:split-string resp :separator "&")) :separator "=")))
+         (data (dex:get "https://api.github.com/user" :headers `(("Authorization" . ,(format nil "token ~A" token))))))
+    (render #P"user.html"
+            (jonathan:parse data))))
+
 @route GET "/:project-name/"
-(defun project-page (&key project-name)
+(defun project-page (&key project-name |force-raw|)
   (let ((project (retrieve-project project-name)))
     (unless project
       (throw-code 404))
@@ -70,7 +78,7 @@
                 :archive-url ,(project-archive-url project)
                 :readme ,(let ((readme (project-readme project)))
                            (when readme
-                             (list :converted (project-readme-converted readme)
+                             (list :converted (unless |force-raw| (project-readme-converted readme))
                                    :raw (project-readme-raw readme))))
                 :authors ,(project-authors project)
                 :maintainers ,(project-maintainers project)
@@ -126,15 +134,22 @@
                                  (list :name (project-name project)
                                        :release-version (project-release-version project)
                                        :description (project-description project)
+                                       :categories (project-categories project)
+                                       :systems (length (project-systems project))
+                                       :archive-url (project-archive-url project)
+                                       :homepage (project-homepage-url* project)
                                        :download-count (gethash (project-name project)
                                                                 (quickdocs-server.search:download-stats))))
                                projects)
+             :len (length projects)
              :query |q|))))
 
 @route GET "/:project-name"
-(defun redirect-to-project (&key project-name)
-  (redirect (format nil "/~A/" (quri:url-encode project-name)) 301)
-  "")
+(defun redirect-to-project (&key project-name |force-raw|)
+  (redirect (if |force-raw| (format nil "/~A/?force-raw=~A" (quri:url-encode project-name) |force-raw|)
+                (format nil "/~A/" (quri:url-encode project-name)))
+            301)
+  "redirecting")
 
 @route GET "/badge/:project-name.svg"
 (defun quicklisp-badge (&key project-name)
