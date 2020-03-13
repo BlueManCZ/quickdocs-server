@@ -46,7 +46,49 @@
   (remhash :name *session*)
   (remhash :html-url *session*)
   (remhash :avatar-url *session*))
-  
+
+;;
+;; Browsing functions
+
+(defun filter-system (name systems)
+  (mapcan (lambda (x)
+            (and (equal (system-name x) name)
+                 (list x)))
+    systems))
+
+(defun get-system-details (systems &optional package-name symbol-name)
+  (mapcar
+    (lambda (system)
+      (list :name (system-name system)
+            :description (system-description system)
+            :packages
+            (mapcan (lambda (package)
+                      (setf (getf package :symbols)
+                            (mapcan (lambda (symbol)
+                                      (setf (getf symbol :type)
+                                            (string-downcase (getf symbol :type)))
+                                      (setf (getf symbol :name)
+                                            (quickdocs-serializer:symb-name
+                                             (getf symbol :name)))
+                                      ;(format t "symbol: ~A|" (getf symbol :name))
+                                      (if symbol-name
+                                        (and (string-equal (getf symbol :name) symbol-name) (list symbol))
+                                        ;(and (> (length (getf symbol :name)) 10) (list symbol))
+                                        (list symbol)))
+                                    (getf package :symbols)))
+                      (setf (getf package :external-symbols)
+                            (remove-if-not
+                              (lambda (symbol)
+                                (getf symbol :externalp))
+                              (getf package :symbols)))
+                      ;(format t "package: ~A|" (getf package :name))
+                      (if package-name
+                        (and (equal (getf package :name) package-name) (list package))
+                        (list package)))
+                    (system-extracted-info-packages
+                     (system-extracted-info system)))))
+    systems))
+
 ;;
 ;; Routing rules
 
@@ -62,28 +104,56 @@
 @route GET "/login/github"
 (defun login-github (&key |code|)
   (let ((oauth-url "https://github.com/login/oauth/")
-	(client-id "6b258428f6838326e122"))
+        (client-id "6b258428f6838326e122"))
     (if (not |code|)
-	(redirect (format nil "~Aauthorize?client_id=~A" oauth-url client-id))
-      (let* ((url "https://api.github.com/user")
-	     (client-secret "533aee14b023f36b560f4aeb7aada966943ca712")
-	     (resp (dex:post (format nil "~Aaccess_token?client_id=~A&client_secret=~A&code=~A" oauth-url client-id client-secret |code|)))
-	     (token (second (uiop:split-string (car (uiop:split-string resp :separator "&")) :separator "=")))
-	     (data (dex:get url :headers `(("Authorization" . ,(format nil "token ~A" token)))))
-	     (json (jonathan:parse data)))
+     (redirect (format nil "~Aauthorize?client_id=~A" oauth-url client-id))
+     (let* ((url "https://api.github.com/user")
+            (client-secret "533aee14b023f36b560f4aeb7aada966943ca712")
+            (resp (dex:post (format nil "~Aaccess_token?client_id=~A&client_secret=~A&code=~A" oauth-url client-id client-secret |code|)))
+            (token (second (uiop:split-string (car (uiop:split-string resp :separator "&")) :separator "=")))
+            (data (dex:get url :headers `(("Authorization" . ,(format nil "token ~A" token)))))
+            (json (jonathan:parse data)))
 
-	(let ((id (getf json :|id|))
-	      (login (getf json :|login|))
-	      (name (getf json :|name|))
-	      (html-url (getf json :|html_url|))
-	      (avatar-url (getf json :|avatar_url|)))
-	  (setf (gethash :id *session*) id)
-	  (setf (gethash :login *session*) login)
-	  (when name (setf (gethash :name *session*) name))
-	  (setf (gethash :html-url *session*) html-url)
-	  (setf (gethash :avatar-url *session*) avatar-url))
-	
-	(redirect "/account")))))
+      (let ((id (getf json :|id|))
+            (login (getf json :|login|))
+            (name (getf json :|name|))
+            (company (getf json :|company|))
+            (location (getf json :|location|))
+            (html-url (getf json :|html_url|))
+            (avatar-url (getf json :|avatar_url|)))
+         (setf (gethash :id *session*) id)
+         (setf (gethash :login *session*) login)
+         (when name (setf (gethash :name *session*) name))
+         (setf (gethash :html-url *session*) html-url)
+         (setf (gethash :avatar-url *session*) avatar-url)
+
+         (format t "~A" (gethash :name *session*))
+
+         (if (retrieve-one
+               (select :*
+                 (from :users)
+                 (where (:= :service_id id))))
+            (execute
+              (update :users
+                (set= :login login
+                      :user_name name
+                      :html_url html-url
+                      :avatar_url avatar-url
+                      :company company
+                      :location location)
+                (where (:= :service_id id))))
+            (execute
+              (insert-into :users
+                (set= :service 1
+                      :service_id id
+                      :login login
+                      :user_name name
+                      :html_url html-url
+                      :avatar_url avatar-url
+                      :company company
+                      :location location)))))
+
+      (redirect "/account")))))
 
 @route GET "/account"
 (defun account ()
@@ -96,22 +166,30 @@
   (clear-session)
   (redirect "/"))
 
+@route GET "/users"
+(defun users ()
+  (let ((result (retrieve-all
+                  (select :*
+                    (from :users)))))
+    (format t "~A" result)
+    (render #P"users.html" `(:users ,result))))
+
 @route GET "/:project-name/"
 (defun project-page (&key project-name |force-raw|)
   (let ((project (retrieve-project project-name)))
     (unless project
       (throw-code 404))
 
-    (let ((dependencies nil
-            #|(mapcar (lambda (dep)
+    (let ((dependencies
+            (mapcar (lambda (dep)
                       (list :name (project-name dep)
                             :description (project-description dep)))
-                    (project-dependencies project))|#)
-          (dependees nil
-            #|(mapcar (lambda (dep)
+                    (project-dependencies project)))
+          (dependees
+            (mapcar (lambda (dep)
                       (list :name (project-name dep)
                             :description (project-description dep)))
-                    (project-dependees project))|#))
+                    (project-dependees project))))
       (render #P"project.html"
               `(:project-name ,project-name
                 :ql-dist-version ,(project-release-version project)
@@ -137,35 +215,73 @@
     (unless project
       (throw-code 404))
 
+    (format t "~A" (mapcar (lambda (x) (system-name x)) (project-systems project)))
+
     (render #P"api.html"
             `(:project-name ,project-name
               :ql-dist-version ,(project-ql-dist-version project)
               :homepage    ,(project-homepage-url* project)
               :repos-url   ,(project-repos-url project)
               :archive-url ,(project-archive-url project)
-              :systems ,(mapcar (lambda (system)
-                                  (list :name (system-name system)
-                                        :description (system-description system)
-                                        :packages
-                                        (mapcar (lambda (package)
-                                                  (setf (getf package :symbols)
-                                                        (mapcar (lambda (symbol)
-                                                                  (setf (getf symbol :type)
-                                                                        (string-downcase (getf symbol :type)))
-                                                                  (setf (getf symbol :name)
-                                                                        (quickdocs-serializer:symb-name
-                                                                         (getf symbol :name)))
-                                                                  symbol)
-                                                                (getf package :symbols)))
-                                                  (setf (getf package :external-symbols)
-                                                        (remove-if-not
-                                                         (lambda (symbol)
-                                                           (getf symbol :externalp))
-                                                         (getf package :symbols)))
-                                                  package)
-                                                (system-extracted-info-packages
-                                                 (system-extracted-info system)))))
-                                (project-systems project))))))
+              :systems     ,(get-system-details (project-systems project))))))
+
+@route GET "/:project-name/api/:system"
+(defun system-detail (&key project-name system)
+  (let ((project (retrieve-project project-name)))
+    (unless project
+      (throw-code 404))
+
+    ;(format t "~A" (mapcan (lambda (x) (and (equal (system-name x) system) (list x))) (project-systems project)))
+    (format t "~A" (mapcan (lambda (x) (and (equal (system-name x) system) (list x))) (project-systems project)))
+
+    (let ((systems (filter-system system (project-systems project))))
+      (unless systems
+        (throw-code 404))
+      (render #P"system.html"
+              `(:project-name ,project-name
+                :ql-dist-version ,(project-ql-dist-version project)
+                :homepage    ,(project-homepage-url* project)
+                :repos-url   ,(project-repos-url project)
+                :archive-url ,(project-archive-url project)
+                :systems     ,(get-system-details systems))))))
+
+@route GET "/:project-name/api/:system/:package"
+(defun package-detail (&key project-name system package)
+  (let ((project (retrieve-project project-name)))
+    (unless project
+      (throw-code 404))
+
+    (let ((systems (filter-system system (project-systems project))))
+      (unless systems
+        (throw-code 404))
+
+      (format t "~A" (system-extracted-info-packages (system-extracted-info (car systems))))
+
+      (render #P"package.html"
+              `(:project-name ,project-name
+                :ql-dist-version ,(project-ql-dist-version project)
+                :homepage    ,(project-homepage-url* project)
+                :repos-url   ,(project-repos-url project)
+                :archive-url ,(project-archive-url project)
+                :systems     ,(get-system-details systems package))))))
+
+@route GET "/:project-name/api/:system/:package/:symbol"
+(defun symbol-detail (&key project-name system package symbol)
+  (let ((project (retrieve-project project-name)))
+    (unless project
+      (throw-code 404))
+
+    (let ((systems (filter-system system (project-systems project))))
+      (unless systems
+        (throw-code 404))
+
+      (render #P"symbol.html"
+              `(:project-name ,project-name
+                :ql-dist-version ,(project-ql-dist-version project)
+                :homepage    ,(project-homepage-url* project)
+                :repos-url   ,(project-repos-url project)
+                :archive-url ,(project-archive-url project)
+                :systems     ,(get-system-details systems package symbol))))))
 
 @route GET "/search"
 (defun search-page (&key |q|)

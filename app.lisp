@@ -23,7 +23,7 @@
 (builder
  (:static
   :path (lambda (path)
-          (if (ppcre:scan "^(?:/images/|/css/|/js/|/robot\\.txt$|/favicon\\.ico$)" path)
+          (if (ppcre:scan "^(?:/images/|/css/|/styles/|/fonts/|/js/|/robot\\.txt$|/favicon\\.ico$)" path)
               path
               nil))
   :root *static-directory*)
@@ -34,6 +34,7 @@
      `(:backtrace
        :output ,(getf (config) :error-log))
      nil)
+ :session
  (if (productionp)
      nil
      (lambda (app)

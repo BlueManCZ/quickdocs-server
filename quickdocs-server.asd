@@ -10,6 +10,9 @@
   :depends-on (:clack
                :lack
                :caveman2
+               :dexador
+               :jonathan
+               :lack-session-store-dbi
                :envy
                :cl-ppcre
                :quri

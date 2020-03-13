@@ -1,0 +1,23 @@
+{% extends "layouts/default.html" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/styles/users.css">
+{% endblock %}
+
+{% block body %}
+    <div class="specify">
+        <table class="users">
+        {% for user in users %}
+            <tr>
+                <td><img class="avatar" src="{{ user.avatar-url }}"></td>
+                <td>{{ user.login }}</td>
+                <td>{{ user.user-name }}</td>
+                <td>{{ user.company }}</td>
+                <td>{{ user.location }}</td>
+                <td><a href="{{ user.html-url }}" target="_blank">Github account</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
+{% endblock %}
