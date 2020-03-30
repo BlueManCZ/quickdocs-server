@@ -11,6 +11,8 @@
   (:import-from :quickdocs-server.search
                 :search-projects
                 :download-stats)
+  (:import-from :quickdocs-updater.readme
+                :pandoc)
   (:import-from :lack.component
                 :call)
   (:import-from :datafly
@@ -42,10 +44,12 @@
 
 (defun clear-session ()
   (remhash :id *session*)
+  (remhash :service-id *session*)
   (remhash :login *session*)
   (remhash :name *session*)
   (remhash :html-url *session*)
-  (remhash :avatar-url *session*))
+  (remhash :avatar-url *session*)
+  (remhash :next *session*))
 
 ;;
 ;; Browsing functions
@@ -97,14 +101,17 @@
           (list :ql-dist-version (preference "ql-dist-version")
                 :app-env (appenv))))
 
-@route GET "/login/"
-(defun login ()
-  (redirect "/login/github"))
+@route GET "/login"
+(defun login (&key |next|)
+  (if |next|
+    (redirect (format nil "/login/github?next=~A" |next|))
+    (redirect "/login/github")))
 
 @route GET "/login/github"
-(defun login-github (&key |code|)
+(defun login-github (&key |code| |next|)
   (let ((oauth-url "https://github.com/login/oauth/")
         (client-id "6b258428f6838326e122"))
+    (when |next| (setf (gethash :next *session*) |next|))
     (if (not |code|)
      (redirect (format nil "~Aauthorize?client_id=~A" oauth-url client-id))
      (let* ((url "https://api.github.com/user")
@@ -114,14 +121,14 @@
             (data (dex:get url :headers `(("Authorization" . ,(format nil "token ~A" token)))))
             (json (jonathan:parse data)))
 
-      (let ((id (getf json :|id|))
+      (let ((service-id (getf json :|id|))
             (login (getf json :|login|))
             (name (getf json :|name|))
             (company (getf json :|company|))
             (location (getf json :|location|))
             (html-url (getf json :|html_url|))
             (avatar-url (getf json :|avatar_url|)))
-         (setf (gethash :id *session*) id)
+         (setf (gethash :service-id *session*) service-id)
          (setf (gethash :login *session*) login)
          (when name (setf (gethash :name *session*) name))
          (setf (gethash :html-url *session*) html-url)
@@ -132,7 +139,7 @@
          (if (retrieve-one
                (select :*
                  (from :users)
-                 (where (:= :service_id id))))
+                 (where (:= :service_id service-id))))
             (execute
               (update :users
                 (set= :login login
@@ -141,19 +148,27 @@
                       :avatar_url avatar-url
                       :company company
                       :location location)
-                (where (:= :service_id id))))
+                (where (:= :service_id service-id))))
             (execute
               (insert-into :users
                 (set= :service 1
-                      :service_id id
+                      :service_id service-id
                       :login login
                       :user_name name
                       :html_url html-url
                       :avatar_url avatar-url
                       :company company
-                      :location location)))))
+                      :location location))))
 
-      (redirect "/account")))))
+         (setf (gethash :id *session*)
+               (second (retrieve-one
+                         (select :id
+                           (from :users)
+                           (where (:= :service_id service-id)))))))
+
+      (if (gethash :next *session*)
+        (redirect (gethash :next *session*))
+        (redirect "/account"))))))
 
 @route GET "/account"
 (defun account ()
@@ -271,7 +286,14 @@
     (unless project
       (throw-code 404))
 
-    (let ((systems (filter-system system (project-systems project))))
+    (let ((systems (filter-system system (project-systems project)))
+          (examples (retrieve-all
+                      (select (:id :user_id :converted)
+                        (from :examples)
+                        (where (:and (:= :project_name project-name)
+                                     (:= :project_system system)
+                                     (:= :project_package package)
+                                     (:= :project_symbol symbol)))))))
       (unless systems
         (throw-code 404))
 
@@ -281,7 +303,27 @@
                 :homepage    ,(project-homepage-url* project)
                 :repos-url   ,(project-repos-url project)
                 :archive-url ,(project-archive-url project)
+                :examples    ,examples
+                :url         ,(format nil "/~A/api/~A/~A/~A" project-name system package symbol)
                 :systems     ,(get-system-details systems package symbol))))))
+
+@route POST "/:project-name/api/:system/:package/:symbol"
+(defun symbol-detail-post (&key project-name system package symbol _parsed)
+  (if (not (gethash :id *session*))
+      (redirect "/login")
+    (let ((param (reduce (lambda (ac it) (append ac (list (intern (string-upcase (car it))) (cdr it)))) _parsed :initial-value '())))
+      ;(format t "Parametry: ")
+      ;(format t "~S" (convert-readme (make-string-input-stream (getf param (intern (string-upcase "text"))))))))
+      (execute
+        (insert-into :examples
+          (set= :user_id (gethash :id *session*)
+                :project_name project-name
+                :project_system system
+                :project_package package
+                :project_symbol symbol
+                :markdown (getf param (intern (string-upcase "text")))
+                :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "text")))) :from "markdown-raw_html"))))))
+  (redirect (format nil "/~A/api/~A/~A/~A" project-name system package symbol)))
 
 @route GET "/search"
 (defun search-page (&key |q|)

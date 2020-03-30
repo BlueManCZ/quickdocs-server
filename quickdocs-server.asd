@@ -18,6 +18,7 @@
                :quri
 
                :quickdocs-database
+               :quickdocs-updater
 
                ;; for @route annotation
                :cl-syntax-annot
