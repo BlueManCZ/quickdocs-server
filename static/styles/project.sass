@@ -1,0 +1,136 @@
+@import "variables"
+
+header
+  font-family: $font1
+  background-color: $background4
+  color: white
+  padding: 30px 0
+
+  h2
+    margin: 0
+    display: inline-block
+    font-size: 25px
+    font-weight: normal
+
+    a
+      @extend .link
+      color: $color10
+      font-weight: bold
+
+      &:hover
+        color: $color9
+
+  .subtitle
+    margin: 11px 0 0
+    font-size: 16px
+
+    a
+      @extend .darklink
+
+  #reading-time
+    margin-left: 10px
+
+.readme
+  font-family: $font1
+  color: $color1
+  padding-top: 20px
+
+  .readme-body
+
+    .note
+      font-size: 16px
+      margin-top: 5px
+      padding: 10px
+      background-color: #e9f8ff
+      border: solid 1px #bce8f1
+      border-radius: 4px
+      color: #057eae
+
+      div
+        font-size: 17px
+        display: block
+        margin-bottom: 5px
+        font-weight: bold
+
+        img
+          width: 18px
+          padding: 0
+          vertical-align: sub
+
+    .raw
+      font-family: $font1
+      background-color: $color3
+      padding: 14px
+
+    figure
+      margin: 20px 0
+
+    hr
+      border: 0
+      border-top: 1px solid
+
+    p
+      margin: 10px 0
+
+    a
+      @extend .link
+
+    h1
+      font-size: 28px
+      font-weight: bold
+      margin: 15px 0 10px
+
+    h2
+      font-size: 22px
+      border-bottom: 1px solid
+      padding-bottom: 7px
+      margin: 30px 0 10px
+    
+    ul
+      li
+        margin: 8px 0
+
+    code
+      font-family: $font1
+      background: $background1
+      padding: 1px 4px
+      font-size: 87%
+      font-weight: bold
+      border-radius: 5px
+      text-transform: uppercase
+      display: inline-block
+
+    pre
+      border-radius: 5px
+      overflow-x: auto
+
+      code
+        display: block
+        padding: 7px 8px 6px
+        line-height: 1.3
+        text-transform: none
+        font-family: monospace
+        color: silver
+        font-size: 15px
+        font-weight: normal
+        background: $background4
+
+    table
+      border-radius: 5px
+      overflow: hidden
+      border-collapse: collapse
+      box-shadow: 0 0 0 1px #f0f0f0
+
+      thead
+        background: $background1
+        line-height: 25px
+
+      td
+        padding: 4px 8px
+
+      tr:nth-child(2n)
+        background-color: $color4
+
+    img
+      max-width: 100%
+      padding: 20px 0

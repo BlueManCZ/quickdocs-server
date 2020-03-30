@@ -1,0 +1,306 @@
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 300;
+  src: url("/fonts/Cantarell-Light.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  src: url("/fonts/Cantarell-Regular.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: bold;
+  src: url("/fonts/Cantarell-Bold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 900;
+  src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+.link, #global-footer small a {
+  text-decoration: none;
+  color: #408ACA; }
+  .link:hover, #global-footer small a:hover {
+    color: #2d5b88;
+    text-decoration: underline; }
+
+.darklink {
+  text-decoration: none;
+  color: #88C8FF; }
+  .darklink:hover {
+    color: #6294c1;
+    text-decoration: underline; }
+
+.preload * {
+  transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important; }
+
+#loader {
+  transition: opacity 0.8s cubic-bezier(0.62, 1.71, 1, 1.64), margin-top 0.3s step-start;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), steps(1, start);
+  opacity: 1; }
+
+.loading_hidden {
+  opacity: 0 !important;
+  margin-top: -1000%;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), step-end !important; }
+  .loading_hidden img {
+    transform: scale(0); }
+
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 300;
+  src: url("/fonts/Cantarell-Light.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  src: url("/fonts/Cantarell-Regular.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: bold;
+  src: url("/fonts/Cantarell-Bold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 900;
+  src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+.link, #global-footer small a {
+  text-decoration: none;
+  color: #408ACA; }
+  .link:hover, #global-footer small a:hover {
+    color: #2d5b88;
+    text-decoration: underline; }
+
+.darklink {
+  text-decoration: none;
+  color: #88C8FF; }
+  .darklink:hover {
+    color: #6294c1;
+    text-decoration: underline; }
+
+.preload * {
+  transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important; }
+
+#loader {
+  transition: opacity 0.8s cubic-bezier(0.62, 1.71, 1, 1.64), margin-top 0.3s step-start;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), steps(1, start);
+  opacity: 1; }
+
+.loading_hidden {
+  opacity: 0 !important;
+  margin-top: -1000%;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), step-end !important; }
+  .loading_hidden img {
+    transform: scale(0); }
+
+.global-header {
+  background: white;
+  padding: 15px 0;
+  font-family: Cantarell, Verdana, sans-serif;
+  color: #666;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+  box-shadow: 0 0 2px; }
+  .global-header .specify {
+    top: 2px; }
+  .global-header img {
+    height: 25px;
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 8px; }
+  .global-header .title {
+    outline: none;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #666; }
+    .global-header .title:hover {
+      color: #333;
+      box-shadow: inset 0 -2px 0; }
+  .global-header span {
+    font-size: 15px;
+    margin-left: 10px; }
+  .global-header .right-side {
+    float: right; }
+    .global-header .right-side nav a {
+      position: relative;
+      margin-left: 10px;
+      vertical-align: top;
+      top: 3px;
+      padding: 3px 6px;
+      text-decoration: none;
+      color: #666;
+      border-radius: 4px;
+      outline: none; }
+      .global-header .right-side nav a:hover {
+        color: #333;
+        background: #f7f7f7; }
+      .global-header .right-side nav a:active {
+        color: #333;
+        background: #fbfbfb; }
+    .global-header .right-side nav .separator {
+      position: relative;
+      width: 1px;
+      height: 15px;
+      background: #666;
+      display: inline-block;
+      vertical-align: super;
+      margin-left: 11px;
+      margin-right: 2px; }
+    .global-header .right-side nav form {
+      display: inline-block;
+      position: relative;
+      border: solid 1px #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      white-space: nowrap; }
+      .global-header .right-side nav form input {
+        position: relative;
+        background: #f7f7f7;
+        font-family: Cantarell, Verdana, sans-serif;
+        color: #666;
+        font-size: 15px;
+        padding: 2px 8px;
+        width: 200px;
+        border: 0;
+        line-height: 20px;
+        outline: none; }
+        .global-header .right-side nav form input::placeholder {
+          color: #666; }
+        .global-header .right-side nav form input:focus {
+          color: #333; }
+          .global-header .right-side nav form input:focus::placeholder {
+            color: #333; }
+      .global-header .right-side nav form .submit {
+        display: none; }
+
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 300;
+  src: url("/fonts/Cantarell-Light.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  src: url("/fonts/Cantarell-Regular.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: bold;
+  src: url("/fonts/Cantarell-Bold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 900;
+  src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+.link, #global-footer small a {
+  text-decoration: none;
+  color: #408ACA; }
+  .link:hover, #global-footer small a:hover {
+    color: #2d5b88;
+    text-decoration: underline; }
+
+.darklink {
+  text-decoration: none;
+  color: #88C8FF; }
+  .darklink:hover {
+    color: #6294c1;
+    text-decoration: underline; }
+
+.preload * {
+  transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important; }
+
+#loader {
+  transition: opacity 0.8s cubic-bezier(0.62, 1.71, 1, 1.64), margin-top 0.3s step-start;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), steps(1, start);
+  opacity: 1; }
+
+.loading_hidden {
+  opacity: 0 !important;
+  margin-top: -1000%;
+  transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), step-end !important; }
+  .loading_hidden img {
+    transform: scale(0); }
+
+#global-footer {
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 20px; }
+  #global-footer small {
+    font-family: Cantarell, Verdana, sans-serif; }
+
+body {
+  background: white;
+  margin: 0;
+  padding-top: 60px; }
+
+.specify {
+  position: relative;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 10px; }
+
+#particles-js {
+  margin: 0;
+  height: 210px;
+  width: 100%;
+  position: relative;
+  background: #73828f; }
+  #particles-js h2 {
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-family: Cantarell, Verdana, sans-serif;
+    top: 80px;
+    position: relative;
+    font-size: 34px;
+    text-shadow: 2px 2px 2px #444;
+    height: 0;
+    font-weight: normal; }
+
+main {
+  font-family: Cantarell, Verdana, sans-serif; }
+  main .tile {
+    display: inline-block;
+    text-align: center;
+    padding: 60px 20px;
+    width: calc(25% - 40px);
+    vertical-align: top; }
+    main .tile .container {
+      display: inline-block;
+      background: #73828f;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      padding: 20px; }
+      main .tile .container img {
+        width: 100%;
+        filter: invert(1); }
+    main .tile h3 {
+      font-size: 23px;
+      font-weight: bold;
+      color: #666;
+      margin-bottom: 4px; }
+    main .tile p {
+      margin-top: 4px;
+      color: #666; }
+      main .tile p span {
+        position: relative;
+        top: 7px;
+        font-weight: bold; }
+      main .tile p a {
+        color: #408ACA; }
+
+/*# sourceMappingURL=main.css.map */

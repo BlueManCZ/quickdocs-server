@@ -1,0 +1,90 @@
+.link {
+  text-decoration: none;
+  color: #408ACA; }
+  .link:hover {
+    color: #2d5b88;
+    text-decoration: underline; }
+
+.global-header {
+  background: white;
+  padding: 15px 0;
+  font-family: Cantarell, Verdana, sans-serif;
+  color: #666;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0; }
+  .global-header .specify {
+    top: 2px; }
+  .global-header img {
+    height: 25px;
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 8px; }
+  .global-header .title {
+    outline: none;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #666; }
+    .global-header .title:hover {
+      color: #333;
+      box-shadow: inset 0 -2px 0; }
+  .global-header span {
+    font-size: 15px;
+    margin-left: 10px; }
+  .global-header .right-side {
+    float: right; }
+    .global-header .right-side nav a {
+      position: relative;
+      margin-left: 10px;
+      vertical-align: top;
+      top: 3px;
+      padding: 3px 6px;
+      text-decoration: none;
+      color: #666;
+      border-radius: 4px;
+      outline: none; }
+      .global-header .right-side nav a:hover {
+        color: #333;
+        background: #f7f7f7; }
+      .global-header .right-side nav a:active {
+        color: #333;
+        background: #fbfbfb; }
+    .global-header .right-side nav .separator {
+      position: relative;
+      width: 1px;
+      height: 15px;
+      background: #666;
+      display: inline-block;
+      vertical-align: super;
+      margin-left: 11px;
+      margin-right: 2px; }
+    .global-header .right-side nav form {
+      display: inline-block;
+      position: relative;
+      border: solid 1px #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      white-space: nowrap; }
+      .global-header .right-side nav form input {
+        position: relative;
+        background: #f7f7f7;
+        font-family: Cantarell, Verdana, sans-serif;
+        color: #666;
+        font-size: 15px;
+        padding: 2px 8px;
+        width: 200px;
+        border: 0;
+        line-height: 20px;
+        outline: none; }
+        .global-header .right-side nav form input::placeholder {
+          color: #666; }
+        .global-header .right-side nav form input:focus {
+          color: #333; }
+          .global-header .right-side nav form input:focus::placeholder {
+            color: #333; }
+      .global-header .right-side nav form .submit {
+        display: none; }
+
+/*# sourceMappingURL=global-header.css.map */

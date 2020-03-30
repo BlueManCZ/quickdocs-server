@@ -1,0 +1,212 @@
+@import "variables"
+
+body
+  font-family: $font1
+  color: $color1
+
+h3
+  font-size: 15px
+  text-transform: uppercase
+  font-weight: 500
+  letter-spacing: 1px
+  color: $color1
+  margin: 0
+  padding: 10px 0 15px
+
+
+.head
+  padding-bottom: 38px
+  background: $background5
+  border-bottom: 1px solid #e8e7e7
+
+  h2
+    font-weight: normal
+    font-size: 20px
+    margin: 30px 0 15px
+
+  table
+    border-radius: 18px
+    overflow: hidden
+    border-spacing: 3px
+    margin-left: -4px
+    font-size: 15px
+
+    td, th
+      text-align: left
+      padding: 4px 7px
+      background: white
+
+nav
+  h3
+    @extend h3
+
+  .item
+    color: $color1
+    text-decoration: none
+    border: solid 1px
+    padding: 4px 8px
+    border-radius: 3px
+    margin-right: 8px
+    outline: none
+    background: white
+
+
+.system
+  position: relative
+  padding-left: 200px
+
+  .toc
+    display: inline-block
+    position: absolute
+    left: 0
+
+    .toc-packages
+      text-decoration: none
+      color: $color5
+      font-size: 15px
+
+      a
+        outline: none
+
+  .package
+    position: relative
+
+  h3
+    @extend h3
+    padding: 30px 0 15px
+
+  h1
+    margin: 0
+    margin-top: -9px
+
+  .bookmark
+    display: block
+    position: absolute
+    top: -55px
+
+  .api
+
+    .package
+      border-top: solid 1px #dfdddd
+
+    ul
+      list-style: none
+      padding: 0
+      margin: 0
+
+      .symbol
+        margin-bottom: 15px
+        display: flex
+
+      .symbol-type
+        text-transform: uppercase
+        font-size: 12px
+        font-weight: 600
+        padding: 2px 7px
+        border-radius: 4px
+        color: white
+        display: inline-block
+        vertical-align: top
+        min-width: 68px
+        text-align: center
+        margin-bottom: 8px
+        margin-right: 8px
+        white-space: nowrap
+        background: #333
+
+      .parent
+        position: relative
+        display: block
+        width: 100%
+
+      .macro
+        background: rgba(153, 51, 204, 0.7)
+
+      .type
+        background: #aaa
+
+      .function
+        //background: rgba(77, 119, 203, 0.7)
+        background: rgba(11, 111, 31, 0.7)
+
+      .condition, .generic-function
+        background: #333
+
+      .method
+        background: rgba(46, 83, 157, 0.7)
+
+      .variable
+        background: rgba(52, 178, 125, 0.7)
+
+      .class
+        background: rgba(224, 153, 82, 0.7)
+
+      code
+        font-family: Hack, monospace
+        display: inline-block
+        vertical-align: top
+        font-weight: 600
+        margin-bottom: 8px
+
+      .lambda-list
+        @extend code
+        font-weight: normal
+        margin-top: -1px
+        margin-bottom: 8px
+        color: gray
+
+        .keyword
+          color: $color9
+          font-style: italic
+
+        code.symbol-name
+          font-weight: normal
+
+      .initial-value
+        @extend code
+        font-weight: normal
+        margin-top: -1px
+        margin-bottom: 8px
+        color: gray
+
+      .docstring
+        white-space: pre
+        margin-top: 2px
+        border-left: solid 1px #dfdcdc
+        padding: 7px 10px
+        background: #fbfbfb
+
+    .also-exports
+      margin-bottom: 15px
+
+    .nothing
+      //margin-top: 25px
+
+    .slot-list
+      border-spacing: inherit
+      border: solid 1px #eee
+      padding: 2px 7px
+      border-radius: 4px
+      background: rgb(253,253,253)
+
+      td
+        padding: 0
+
+      .symbol-name
+        font-weight: normal
+        background: #f2f2f2
+        font-size: 14px
+        padding: 2px 4px
+        border-radius: 3px
+        margin: 4px 0
+
+      .label
+        display: block
+        font-size: 14px
+        font-weight: 600
+        margin: 6px 10px 7px
+
+.example
+  background: #fbfbfb
+  padding: 1px 11px
+  margin-bottom: 20px

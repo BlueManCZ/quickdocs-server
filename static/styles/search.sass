@@ -1,0 +1,134 @@
+@import "variables"
+
+.banner
+  font-family: $font1
+  background-color: $background2
+  color: white
+  padding: 30px 0
+
+  h2
+    margin: 0
+    display: inline-block
+    font-size: 25px
+
+  .search-query
+    //font-size: 10px
+    font-weight: normal
+    //font-size: 18px
+
+    b
+      font-size: 25px
+      //color: $color6
+
+  .search-results-summary
+    margin: 10px 0 0
+    font-size: 18px
+
+.content
+  font-family: $font1
+
+  .search-result-container
+    padding: 10px 0 0
+    margin: 0
+
+    .search-result
+      position: relative
+      list-style: none
+      margin-top: 18px
+      //border-left: 2px $background2 solid
+      //padding: 3px 0 7px 15px
+      padding-left: 0
+      border-bottom: solid 1px #e4e4e4
+      padding-bottom: 20px
+
+      //&:hover
+      //  background: $color3 !important
+
+      h2
+        display: inline-block
+        margin: 0
+        font-weight: normal
+
+      .project-name
+        font-size: 22px
+        text-decoration: none
+        color: $color5
+        //font-weight: bold
+
+        &:hover
+          color: $color7
+          //box-shadow: 0 2px 0
+          text-decoration: underline
+
+      .ql-version
+        margin-left: 5px
+        color: $color1
+        font-size: 13px
+
+      .description
+        font-size: 16px
+        margin-top: 5px
+        color: $color1
+
+      .api
+        @extend .description
+        font-size: 14px
+        margin-bottom: 0
+
+        a
+          color: $color5
+          text-decoration: none
+
+          &:hover
+            color: $color7
+            //box-shadow: 0 1px 0
+            text-decoration: underline
+
+      .sidebar
+        position: absolute
+        right: 0
+        top: 0
+        text-align: right
+        padding: 5px 0
+        height: 100%
+
+        .button
+          color: $color5
+          text-decoration: none
+
+          &:hover
+            color: $color7
+            //box-shadow: 0 1px 0
+            text-decoration: underline
+
+        .download-count
+          color: $color1
+          font-size: 13px
+
+        .categories
+          position: absolute
+          bottom: 0
+          right: 0
+          white-space: nowrap
+
+          a
+            @extend .button
+
+
+      //&:nth-child(2n+1)
+      //  background-color: $color4
+
+  .no-results
+    font-size: 20px
+    color: $color1
+    padding: 20px 0
+
+    p
+      margin: 0
+
+    .smaller
+      font-size: 15px
+      margin-top: 6px
+
+      a
+        @extend .link

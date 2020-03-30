@@ -1,0 +1,73 @@
+@import 'variables'
+@import 'global-header'
+@import 'footer'
+
+body
+  background: white
+  margin: 0
+  padding-top: 60px
+
+.specify
+  position: relative
+  max-width: 1200px
+  margin: auto
+  padding: 0 10px
+
+#particles-js
+  margin: 0
+  height: 210px
+  width: 100%
+  position: relative
+  background: $background2
+
+  h2
+    margin: 0
+    text-align: center
+    color: white
+    font-family: $font1
+    top: 80px
+    position: relative
+    font-size: 34px
+    text-shadow: 2px 2px 2px #444
+    height: 0
+    font-weight: normal
+
+main
+  font-family: $font1
+
+  .tile
+    display: inline-block
+    text-align: center
+    padding: 60px 20px
+    width: calc(25% - 40px)
+    vertical-align: top
+
+    .container
+      display: inline-block
+      background: $background2
+      width: 70px
+      height: 70px
+      border-radius: 50%
+      padding: 20px
+
+      img
+        width: 100%
+        filter: invert(1)
+
+    h3
+      font-size: 23px
+      font-weight: bold
+      color: $color1
+      margin-bottom: 4px
+
+    p
+      margin-top: 4px
+      color: $color1
+
+      span
+        position: relative
+        top: 7px
+        font-weight: bold
+
+      a
+        color: $color5
