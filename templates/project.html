@@ -1,98 +1,205 @@
 {% extends "layouts/default.html" %}
-{% block title %}{{ project-name }} | Quickdocs{% endblock %}
-{% block css %}
-<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+{% block title %}{{ project-name }} | Colidocs{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" media="screen" href="/styles/project.css">
+<link rel="stylesheet" type="text/css" href="/js/code-prettify/skins/desert.css">
 {% endblock %}
-{% block content %}
-<header>
-  <h2 class="project-name"><a href="/{{ project-name | urlencode }}/">{{ project-name }}</a></h2>
-  <span class="subtitle ql-version">{{ ql-dist-version }}</span>
-  {% include "partials/header-links.html" %}
-</header>
+{% block body %}
+    <script type="text/javascript" src="/js/code-prettify/prettify.js"></script>
+    <script type="text/javascript" src="/js/code-prettify/lang-lisp.js"></script>
+    <header>
+     <div class="specify">
+         <h2 class="project-name"><b>Documentation page</b> for project <a href="/{{ project-name | urlencode }}/">{{ project-name }}</a></h2>
+         <p class="subtitle ql-version">Quicklisp version: <b>{{ ql-dist-version }}</b> <span id="reading-time"></span></p>
+         <p class="subtitle">{% if authors %}<b>Made by:</b> <span id="authors">{{ authors | join:", " }}</span>{% endif %}</p>
+     </div>
+    <!--{% include "partials/header-links.html" %}-->
+    </header>
+    <div class="specify">
 
-<article>
-{% if readme %}
-<section class="readme">
-  <div class="readme-body">{% if readme.converted %}{{ readme.converted | safe }}{% else %}<pre>{{ readme.raw }}</pre>{% endif %}</div>
-</section>
-{% endif %}
+    <article>
+    {% if readme %}
+    <section class="readme">
+      <div id="readme-body" class="readme-body">{% if readme.converted %}{{ readme.converted | safe }}
+      <script>
+        let codes = document.getElementById('readme-body').getElementsByTagName('pre');
+        for (let i = 0; i < codes.length; i++) {
+            if (codes[i].className === 'example') continue;
+            let lang = codes[i].classList.item(1);
+            if (lang === 'commonlisp' || lang === 'common-lisp') {
+                codes[i].classList.replace(lang, 'lisp');
+                lang = 'lisp';
+            } else if (lang === 'glsl') {
+                codes[i].classList.replace(lang, 'c');
+                lang = 'c';
+            }
+            if (lang)
+                codes[i].classList.replace(lang, 'lang-' + lang);
+            else
+                codes[i].classList.add('lang-lisp');
+            codes[i].classList.add('prettyprint');
+        }
+        PR.prettyPrint();
 
-{% if authors or maintainers or licenses or categories %}
-<section class="information">
-  <dl>
-    {% if authors %}
-    <dt>Author</dt>
-    <dd>{{ authors | join:", " }}</dd>
-    {% endif %}
-    {% if maintainers %}
-    <dt>Maintainer</dt>
-    <dd>{{ maintainers | join:", " }}</dd>
-    {% endif %}
-    {% if licenses %}
-    <dt>License</dt>
-    <dd>{{ licenses | join:", " }}</dd>
-    {% endif %}
-    {% if categories %}
-    <dt>Categories</dt>
-    <dd>
-      {% for category in categories %}
-      <a href="/search?q={{ category | urlencode }}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
-      {% endfor %}
-    </dd>
-    {% endif %}
-  </dl>
-</section>
-{% endif %}
+        // ----------------------------------------------------------------------------
 
-<aside class="dependencies">
-  <h3>Requirements</h3>
-  <span class="count">{{ dependencies-count }}</span>
-  {% if dependencies %}
-  <ul class="folding-list">
-    {% for dependency in dependencies %}
-    <li>
-      <a href="/{{ dependency.name | urlencode }}/">
-        <span class="name">{{ dependency.name }}</span>
-        <span class="description">{{ dependency.description }}</span>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <em class="none">None.</em>
-  {% endif %}
-</aside>
+        let images = document.getElementById('readme-body').getElementsByTagName('img');
+        for (let i = 0; i < images.length; i++) {
+            if (images[i].getAttribute('src')[0] === '.') {
+                let source = '{% if repos-url %}{{ repos-url }}{% else %}"https://github.com/guicho271828/asdf-viz"{% endif %}'.split('/');
+                let newsource = 'https://raw.githubusercontent.com/'+source[3]+'/{{ project-name }}/master/'+images[i].getAttribute('src');
+                images[i].setAttribute('src', newsource);
+            }
+        }
+        PR.prettyPrint();
 
-<aside class="depending">
-  <h3>Required by</h3>
-  <span class="count">{{ dependees | length }}</span>
-  {% if dependees %}
-  <ul class="folding-list">
-    {% for dependee in dependees %}
-    <li>
-      <a href="/{{ dependee.name | urlencode }}/">
-        <span class="name">{{ dependee.name }}</span>
-        <span class="description">{{ dependee.description }}</span>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</aside>
+      </script>{% else %}<div class="note"><div><img src="/images/icons/note2.png"> Note</div>This document was parsed as a plain text and does not contain formatting.</div><pre class="raw">{{ readme.raw }}</pre>{% endif %}</div>
+    </section>
+    <script>
+        let text = document.getElementById('readme-body').innerText;
+        let count = text.split(/\s+/).length;
+        let time = count / 200;
+        if (Math.round(time) >= 1) {
+            let output = 'Estimated reading time: <b>';
+            if (Math.round(time) === 1) output += '1 min';
+            else if (time < 1) output += '< 1 min';
+            else output += Math.round(time) + ' mins';
+            output += '</b>';
+            document.getElementById('reading-time').innerHTML = output;
+        }
 
-<aside class="links">
-  <h3>Links</h3>
-  <ul>
-    <li><a href="/{{ project-name | urlencode }}/api">API Reference</a></li>
-    {% if homepage %}
-    <li><a href="{{ homepage }}">Website</a></li>
+        let authors = document.getElementById('authors').innerText;
+        let email = /<([^>]+)>/g;
+        let match = email.exec(authors);
+        let replacement = '&lt<a href=mailto:' + match[1] + '>' + match[1] + '</a>&gt';
+        authors = authors.replace(match[0], replacement);
+        document.getElementById('authors').innerHTML = authors;
+
+    </script>
     {% endif %}
-    {% if repos-url %}
-    <li><a href="{{ repos-url }}">Source Code</a></li>
-    {% endif %}
-  </ul>
-</aside>
-</article>
 
+    {% if authors or maintainers or licenses or categories %}
+    <section class="information">
+      <h1>Information</h1>
+      <table>
+        {% if authors %}
+        <tr>
+          <td>Author</td>
+          <td>{{ authors | join:", " }}</td>
+        </tr>
+        {% endif %}
+        {% if maintainers %}
+        <tr>
+          <td>Maintainer</td>
+          <td>{{ maintainers | join:", " }}</td>
+        </tr>
+        {% endif %}
+        {% if licenses %}
+        <tr>
+          <td>License</td>
+          <td>{{ licenses | join:", " }}</td>
+        </tr>
+        {% endif %}
+        {% if categories %}
+        <tr>
+          <td>Categories</td>
+          <td>{% for category in categories %}
+            <a href="/search?q={{ category | urlencode }}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td>API</td>
+          <td><a href="/{{ project-name | urlencode }}/api">API Reference</td>
+        </tr>
+        {% if homepage %}
+        <tr>
+          <td>Website</td>
+          <td><a href="{{ homepage }}">Homepage</td>
+        </tr>
+        {% endif %}
+        {% if repos-url %}
+        <tr>
+          <td>Source Code</td>
+          <td><a href="{{ repos-url }}">Download</a></td>
+        </tr>
+        {% endif %}
+      </table>
+      <!--
+      <dl>
+        {% if authors %}
+        <dt>Author</dt>
+        <dd>{{ authors | join:", " }}</dd>
+        {% endif %}
+        {% if maintainers %}
+        <dt>Maintainer</dt>
+        <dd>{{ maintainers | join:", " }}</dd>
+        {% endif %}
+        {% if licenses %}
+        <dt>License</dt>
+        <dd>{{ licenses | join:", " }}</dd>
+        {% endif %}
+        {% if categories %}
+        <dt>Categories</dt>
+        <dd>
+          {% for category in categories %}
+          <a href="/search?q={{ category | urlencode }}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </dd>
+        {% endif %}
+      </dl>-->
+    </section>
+    {% endif %}
+
+    <aside class="dependencies">
+      <h3>Requirements</h3>
+      <span class="count">{{ dependencies-count }}</span>
+      {% if dependencies %}
+      <ul class="folding-list">
+        {% for dependency in dependencies %}
+        <li>
+          <a href="/{{ dependency.name | urlencode }}/">
+            <span class="name">{{ dependency.name }}</span>
+            <span class="description">{{ dependency.description }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <em class="none">None.</em>
+      {% endif %}
+    </aside>
+
+    <aside class="depending">
+      <h3>Required by</h3>
+      <span class="count">{{ dependees | length }}</span>
+      {% if dependees %}
+      <ul class="folding-list">
+        {% for dependee in dependees %}
+        <li>
+          <a href="/{{ dependee.name | urlencode }}/">
+            <span class="name">{{ dependee.name }}</span>
+            <span class="description">{{ dependee.description }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </aside>
+
+    <aside class="links">
+      <h3>Links</h3>
+      <ul>
+        <li><a href="/{{ project-name | urlencode }}/api">API Reference</a></li>
+        {% if homepage %}
+        <li><a href="{{ homepage }}">Website</a></li>
+        {% endif %}
+        {% if repos-url %}
+        <li><a href="{{ repos-url }}">Source Code</a></li>
+        {% endif %}
+      </ul>
+    </aside>
+    </article>
+    </div>
 {% include "partials/footer.html" %}
 {% endblock %}

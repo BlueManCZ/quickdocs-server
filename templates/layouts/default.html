@@ -1,20 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="/css/LigatureSymbols/style.css" />
-  {% block css %}{% endblock %}
-  <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-  <script type="text/javascript" src="/js/underscore-min.js"></script>
-  <script type="text/javascript" src="/js/quickdocs.js"></script>
+    <meta charset="UTF-8">
+    <title>{% block title %}Colidocs{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/images/books_2.png">
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+    <script>
+        function hideLoader() {
+            document.getElementsByClassName('preload')[0].classList.remove('preload');
+            document.getElementById('loader').classList.add('loading_hidden');
+        }
+    </script>
+
+    <style>
+        #loader {
+            position: fixed;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            background: white;
+            z-index: 10000;
+            overflow: hidden;
+        }
+
+        #loader img {
+            margin: auto;
+            transition: transform 0.2s cubic-bezier(.54,-0.72,.58,1);
+        }
+    </style>
 </head>
-<body>
-<div id="container">
-  {% include "partials/header.html" %}
-  <div id="content">
-  {% block content %}{% endblock %}
-  </div>
-</div>
+<body class="preload" onload="hideLoader()">
+    <div id="loader" class="loading_hidden">
+        <img src="/images/hex-loader.gif" alt="Loading...">
+    </div>
+    <script>document.getElementById('loader').classList.remove('loading_hidden')</script>
+    {% include "partials/header.html" %}
+    <div class="wrapper">
+        {% block body %}{% endblock %}
+    </div>
 </body>
 </html>
