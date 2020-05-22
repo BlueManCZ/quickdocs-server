@@ -1,0 +1,12 @@
+<header class="global-header">
+    <div class="specify">
+        <img src="/images/icons/menu.png" class="menu"><img src="/images/books_2.png" alt="books icon"><a class="title" href="/">Colidocs</a><span>Common Lisp documentation</span>
+        <div class="right-side">
+            <nav>
+                <form method="get" action="/search">
+                    <label><input type="text" name="q" placeholder="Quick search"></label><input class="submit" type="submit">
+                </form><a href="#">Browse packages</a><div class="separator"></div><a href="#">About project</a><div class="separator"></div>{% if session.login %}<a href="/account">{{session.login}}</a>{% else %}<a href="/login{% if url %}?next={{ url }}{% endif %}">Sign in</a>{% endif %}
+            </nav>
+        </div>
+    </div>
+</header>

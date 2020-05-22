@@ -3,31 +3,220 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="/styles/api.css">
 <link rel="stylesheet" type="text/css" href="/styles/simplemde.min.css">
+<link rel="stylesheet" type="text/css" href="/js/code-prettify/skins/desert.css">
 {% endblock %}
 {% block body %}
 <script src="/js/simplemde.min.js"></script>
+<script type="text/javascript" src="/js/code-prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/code-prettify/lang-lisp.js"></script>
 
-<header class="head">
-    <div class="specify" style="overflow: auto">
-        <h2 class="project-name"><b>API Reference</b> for project <a class="link" href="/{{ project-name | urlencode }}/">{{ project-name }}</a></h2>
+<nav class="left-panel">
+    <a href="/{{ project-name | urlencode }}/"><div class="item" title="Show project homepage">
+        <div class="parent"><img src="/images/icons/house2.png"></div><span>Homepage</span>
+    </div></a>
+    <a href="/{{ project-name | urlencode }}/api"><div class="item" title="Show API Reference">
+        <div class="parent"><img src="/images/icons/api.png"></div><span>API Reference</span>
+    </div></a>
+</nav>
 
-        <table>
-            <tr>
-                <th>Project</th>
-                <th>System</th>
-                <th>Package</th>
-                <th>Symbol</th>
-            </tr>
-            <tr>
-                <td><a class="link" href="/{{ project-name }}/api">{{ project-name }}</a></td>
-                <td><a class="link" href="/{{ project-name }}/api/{{ systems.0.name }}">{{ systems.0.name }}</a></td>
-                <td><a class="link" href="/{{ project-name }}/api/{{ systems.0.name }}/{{ systems.0.packages.0.name }}">{{ systems.0.packages.0.name }}</a></td>
-                <td>{{ systems.0.packages.0.external-symbols.0.name }}</td>
-            </tr>
-        </table>
+
+<div class="dock">
+
+    <h1>API Reference</h1>
+
+    <div class="collumn">
+        <div class="tile">
+            <h2>Informations</h2>
+            <p>Curently inspected project</p>
+            <a class="link" href="/{{ project-name | urlencode }}/"><h1>{{ project-name }}</h1></a>
+            <p>Number of systems</p>
+            <h1>{{ systems | length }}</h1>
+        </div><div class="tile">
+            <h2>Details</h2>
+            <p>Selected system</p>
+            <h1 class="highlight" id="current-system">1am</h1>
+            <p>System description</p>
+            <h4>A minimal testing framework.</h4>
+            <p>Selected package</p>
+            <h1 class="highlight" id="current-package">1AM</h1>
+        </div>
+    </div><div class="content-collumn">
+        <div class="tile">
+            {% for system in systems %}
+            <article>
+                <div class="system" id="system-{{ system.name }}">
+                    <!--header>
+                    <div class="bookmark" id="system-{{ system.name }}"></div>
+                    <h3>System</h3>
+                    <h1><a class="link" href="api/{{ system.name }}">{{ system.name }}</a></h1>
+                    {% if system.description %}
+                    <p class="description">{{ system.description }}</p>
+                    {% endif %}
+                    </header-->
+
+                    <div class="api">
+                    {% for package in system.packages %}
+                      <section class="package" style="border: none">
+                        {% if package.external-symbols %}
+                        <h2>Selected symbol</h2>
+                        <ul>
+                          {% for symbol in package.external-symbols %}
+                          <li class="symbol">
+                            <div><span class="symbol-type label {{ symbol.type }}">{{ symbol.type | capfirst }}</span></div>
+                            <div class="parent">
+                                <code class="symbol-name">{% if symbol.setfp %}(setf {{ symbol.name }}){% else %}{{ symbol.name }}{% endif %}</code>
+                                {% if symbol.lambda-list %}
+                                <span class="lambda-list">
+                                  {{ symbol.lambda-list | lambda-list | safe }}
+                                </span>
+                                {% endif %}
+                                {% if symbol.superclasses %}
+                                &nbsp;<code>(</code>{% for superclass in symbol.superclasses %}<code class="symbol-name">{{ superclass | symbol }}</code>{% if not forloop.last %}<code>,</code> {% endif %}{% endfor %}<code>)</code>
+                                {% endif %}
+                                {% if symbol.include-structs %}
+                                    includes <code>(</code>{% for include in symbol.include-structs %}<code class="symbol-name">{{ include | symbol }}</code>{% if not forloop.last %}<code>,</code> {% endif %}{% endfor %}<code>)</code>
+                                {% endif %}
+                                {% if symbol.initial-value %}
+                                <pre class="initial-value">{{ symbol.initial-value | lower }}</pre>
+                                {% endif %}
+                                {% if symbol.docstring %}
+                                <div class="docstring-prev">{{ symbol.docstring }}</div>
+                                {% endif %}
+                                {% if symbol.type == "class" or symbol.type == "struct" %}
+                                {% if symbol.slots %}
+                                <!--<dl class="slot-list">
+                                  {% for slot in symbol.slots %}
+                                  <dt>
+                                    <code class="symbol-name">{{ slot.name | symbol }}</code>
+                                    {% if slot.accessors %}
+                                    &nbsp;&nbsp;<span class="label">Accessor</span>:
+                                    {% for accessor in slot.accessors %}
+                                    <code class="symbol-name">{{ accessor | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% if slot.readers %}
+                                    &nbsp;&nbsp;<span class="label">Reader</span>:
+                                    {% for reader in slot.readers %}
+                                    <code class="symbol-name">{{ reader | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% if slot.writers %}
+                                    &nbsp;&nbsp;<span class="label">Writer</span>:
+                                    {% for writer in slot.writer %}
+                                    <code class="symbol-name">{{ writer | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                  </dt>
+                                  {% if slot.docstring %}
+                                  <dd>{{ slot.docstring }}</dd>
+                                  {% endif %}
+                                  {% endfor %}
+                                </dl>-->
+                                <table class="slot-list">
+                                {% for slot in symbol.slots %}
+                                    <tr>
+                                        <td><code class="symbol-name">{{ slot.name | symbol }}</code></td>
+                                        {% if slot.accessors %}
+                                        <td><span class="label">Accessor:</span></td>
+                                        <td>
+                                        {% for accessor in slot.accessors %}
+                                        <code class="symbol-name">{{ accessor | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+
+                                        {% if slot.readers %}
+                                        <td><span class="label">Reader:</span></td>
+                                        <td>
+                                        {% for reader in slot.readers %}
+                                        <code class="symbol-name">{{ reader | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+
+                                        {% if slot.writers %}
+                                        <td><span class="label">Writer:</span></td>
+                                        <td>
+                                        {% for writer in slot.writers %}
+                                        <code class="symbol-name">{{ writer | symbol }}</code>{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                                {% else %}
+                                <div class="nothing">No slots.</div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                        {% else %}
+                        <div class="nothing">No exported symbols.</div>
+                        {% endif %}
+                      </section>
+                    {% endfor %}
+                    {% if not system.packages %}
+                      <div class="nothing">No packages.</div>
+                    {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+            <article>
+                <div id="examples" class="system" style="padding-left: 0">
+                    <!--div class="bookmark" id="system-{{ system.name }}"></div-->
+                    {% if not examples %}<div class="note"><div><img src="/images/icons/note2.png"> Note</div>There are currently no user examples. You can create one.</div>{% endif %}
+                    {% for example in examples %}
+                        <header>
+                            <img class="avatar" alt="Avatar image" src="{{ example.avatar-url }}" title="{% if example.user-name %}{{ example.user-name}}{% else %}{{example.login }}{% endif %}">
+                            <span class="title"><b>{{ example.login }}</b> created an example. </span>
+                            {% if example.user-id == session.id %}<form class="remove" action="/remove-example/{{ example.id }}" method="post">
+                                <a href="#">Remove</a>
+                            </form>
+                            {% endif %}
+                        </header>
+                        <div class="example">{{ example.converted | safe }}</div>
+                    {% endfor %}
+                </div>
+                <script>
+                    let codes = document.getElementById('examples').getElementsByTagName('pre');
+                    for (let i = 0; i < codes.length; i++) {
+                        if (codes[i].className === 'example') continue;
+                        let lang = codes[i].classList.item(1);
+                        if (lang === 'commonlisp' || lang === 'common-lisp') {
+                            codes[i].classList.replace(lang, 'lisp');
+                            lang = 'lisp';
+                        } else if (lang === 'glsl') {
+                            codes[i].classList.replace(lang, 'c');
+                            lang = 'c';
+                        }
+                        if (lang)
+                            codes[i].classList.replace(lang, 'lang-' + lang);
+                        else
+                            codes[i].classList.add('lang-lisp');
+                        codes[i].classList.add('prettyprint');
+                    }
+                    PR.prettyPrint();
+                </script>
+            </article>
+            <article>
+                <div class="system" style="padding-left: 0">
+                    {% if session.login %}
+                    <h3 class="small-title">Create example</h3>
+                    <form method="post">
+                        <textarea id="text" name="text" rows="8" cols="80"></textarea>
+                        <input type="submit" value="Odeslat">
+                    </form>
+                    {% else %}
+                    <div class="signin">You must <a class="link" href="/login{% if url %}?next={{ url }}{% endif %}">sign in</a> to create a new example.</div>
+                    {% endif %}
+                </div>
+            </article>
     </div>
-</header>
 
+<!--
 {% for system in systems %}
 <article>
     <div class="specify">
@@ -46,7 +235,7 @@
             <header>
             <div class="bookmark" id="system-{{ system.name }}"></div>
             <h3>System</h3>
-            <h1>{{ system.name }}</h1>
+            <h1><a class="link" href="api/{{ system.name }}">{{ system.name }}</a></h1>
             {% if system.description %}
             <p class="description">{{ system.description }}</p>
             {% endif %}
@@ -68,7 +257,7 @@
                   <li class="symbol">
                     <div><span class="symbol-type label {{ symbol.type }}">{{ symbol.type | capfirst }}</span></div>
                     <div class="parent">
-                        <code class="symbol-name">{% if symbol.setfp %}(setf {{ symbol.name }}){% else %}{{ symbol.name }}{% endif %}</code>
+                        <code class="symbol-name"><a class="link" href="/{{ project-name }}/api/{{ system.name }}/{{ package.name }}/{{ symbol.name }}">{% if symbol.setfp %}(setf {{ symbol.name }}){% else %}{{ symbol.name }}{% endif %}</a></code>
                         {% if symbol.lambda-list %}
                         <span class="lambda-list">
                           {{ symbol.lambda-list | lambda-list | safe }}
@@ -88,34 +277,6 @@
                         {% endif %}
                         {% if symbol.type == "class" or symbol.type == "struct" %}
                         {% if symbol.slots %}
-                        <!--<dl class="slot-list">
-                          {% for slot in symbol.slots %}
-                          <dt>
-                            <code class="symbol-name">{{ slot.name | symbol }}</code>
-                            {% if slot.accessors %}
-                            &nbsp;&nbsp;<span class="label">Accessor</span>:
-                            {% for accessor in slot.accessors %}
-                            <code class="symbol-name">{{ accessor | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                            {% if slot.readers %}
-                            &nbsp;&nbsp;<span class="label">Reader</span>:
-                            {% for reader in slot.readers %}
-                            <code class="symbol-name">{{ reader | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                            {% if slot.writers %}
-                            &nbsp;&nbsp;<span class="label">Writer</span>:
-                            {% for writer in slot.writer %}
-                            <code class="symbol-name">{{ writer | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                          </dt>
-                          {% if slot.docstring %}
-                          <dd>{{ slot.docstring }}</dd>
-                          {% endif %}
-                          {% endfor %}
-                        </dl>-->
                         <table class="slot-list">
                         {% for slot in symbol.slots %}
                             <tr>
@@ -175,42 +336,10 @@
         </div>
     </div>
 </article>
-{% endfor %}
-<article>
-    <div class="specify">
-        <div class="system">
-            <nav class="toc">
-                <div class="sticky">
-                    <h3>Example index</h3>
-                    <div class="toc-packages">
-                    {% for example in examples %}
-                      <div><a class="link" href="#example-{{ example.id }}" title="{{ example.id }}">{{ example.id }}</a></div>
-                    {% endfor %}
-                    </div>
-                </div>
-            </nav>
+{% endfor %}-->
+</div>
 
-            <header>
-            <!--div class="bookmark" id="system-{{ system.name }}"></div-->
-            <h3>Examples</h3>
-            {% for example in examples %}
-                <p>User ID: {{ example.user-id }}</p>
-                <div class="example">{{ example.converted | safe }}</div>
-            {% endfor %}
-            </header>
-        </div>
-    </div>
-</article>
-<article>
-    <div class="specify">
-        <form method="post">
-            <textarea id="text" name="text" rows="8" cols="80"></textarea>
-            <input type="submit" value="Odeslat">
-        </form>
-    </div>
-</article>
-
-{% include "partials/footer.html" %}
+<!--{% include "partials/footer.html" %}
 
 <ul class="breadcrumb-header-container" style="display: none">
   <li><a href="#global-header" class="top-link lsf">home</a></li>
@@ -219,7 +348,7 @@
   <a class="pager-link lsf-icon" title="up">Prev</a>
   <a class="pager-link lsf-icon" title="down">Next</a>
 </div>
-
+-->
 <script>
     let symbols = document.getElementsByClassName('symbol');
 
@@ -227,15 +356,55 @@
         for (let i = 0; i < symbols.length; i++) {
             let name = symbols[i].childNodes[3].childNodes[1].innerHTML;
             if (name.toUpperCase().indexOf(filter.toUpperCase()) > -1) {
-              symbols[i].style.display = "";
+              symbols[i].style.display = '';
             } else {
-              symbols[i].style.display = "none";
+              symbols[i].style.display = 'none';
             }
         }
     }
 
+    function toggleAttribute(attribute, value) {
+        let items = window.location.search.substring(1).split('&');
+        console.log(items);
+        let url = window.location.pathname;
+
+        let toggled = false;
+        let mark = false; // question mark present?
+
+        for (let i = 0; i < items.length; i++) {
+            let s = items[i].split('=');
+            if (s.length === 2) {
+                if (s[1] !== value || s[0] !== attribute) {
+                    if (!mark) {
+                        url += '?';
+                        mark = true;
+                    } else {
+                        url += '&';
+                    }
+                    url += s[0] + '=' + s[1];
+                } else {
+                    toggled = true;
+                }
+            }
+        }
+
+        if (!toggled) {
+            if (!mark) {
+                url += '?';
+            } else {
+                url += '&';
+            }
+            url += attribute + '=' + value;
+        }
+
+        window.history.replaceState(null, null, url);
+    }
+
     function parseAttributes() {
         let items = window.location.search.substring(1).split('&');
+
+        let systemName;
+        let packageName;
 
         for (let i = 0; i < items.length; i++) {
             let s = items[i].split('=');

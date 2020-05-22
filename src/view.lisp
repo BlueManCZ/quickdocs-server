@@ -5,13 +5,14 @@
                 :*template-directory*)
   (:import-from :caveman2
                 :*response*
-		:*session*
+                :*session*
                 :response-headers)
   (:import-from :djula
                 :add-template-directory
                 :compile-template*
                 :render-template*
-                :*djula-execute-package*)
+                :*djula-execute-package*
+                :def-filter)
   (:import-from :datafly
                 :encode-json)
   (:export :render
@@ -34,7 +35,6 @@
 (defun render-json (object)
   (setf (getf (response-headers *response*) :content-type) "application/json")
   (encode-json object))
-
 
 ;;
 ;; Execute package definition

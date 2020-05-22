@@ -1,12 +1,26 @@
 {% extends "layouts/default.html" %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/styles/user.css">
+{% endblock %}
 {% block body %}
+    <div class="specify">
+        <div class="left-column">
+            <img class="avatar" src="{{session.avatar-url}}" alt="profile image">
+            <h1>{% if not session.name %}{{session.login}}{% else %}{{ session.name }}{% endif %}</h1>
+            {% if session.name %}<h2>{{session.login}}</h2>{% endif %}
+            <a href="{{session.html-url}}" class="button link"><img src="/images/icons/github.svg" alt="github">GitHub page</a>
+        </div><div class="right-column">
+            <h1>Your contributions</h1>
+        {% for example in examples %}<div class="example"><div class="frame"><div class="header"><img src="/images/icons/comment.png" class="icon" alt="icon"><a class="shorten">{{ example.project-system }}</a> · <a class="shorten link" href="/{{ example.project-name }}/api?system={{ example.project-system }}&package={{ example.project-package }}">{{ example.project-package }}</a> · <a class="shorten link" href="/{{ example.project-name }}/api/{{ example.project-system }}/{{ example.project-package }}/{{ example.project-symbol }}">{{ example.project-symbol }}</a></span></div><div class="content">{{ example.markdown }}</div></div></div>{% endfor %}
+        </div>
+    </div>
+<!--
 <p>Login: {{session.login}}<br>
 Github page: <a href="{{session.html-url}}">{{session.html-url}}</a><br>
-<p><img src="{{session.avatar-url}}" style="width: 50px"></p>
+<p><img src="{{session.avatar-url}}" style="width: 50px"></p></p>
 <p>Session: {{session}}<br>
 <b>Items in session:</b><br>
 {% for (x . y) in session %}
 {{x}}: {{y}}<br>
-{% endfor %}</p>
-<p><a href="/logout">Logout</a></p>
+{% endfor %}-->
 {% endblock %}

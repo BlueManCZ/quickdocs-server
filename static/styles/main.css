@@ -17,6 +17,17 @@
   font-family: Cantarell;
   font-weight: 900;
   src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Hack;
+  src: url("/fonts/Hack-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: Hack;
+  font-weight: bold;
+  src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
 .link, #global-footer small a {
   text-decoration: none;
   color: #408ACA; }
@@ -48,6 +59,27 @@
   transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), step-end !important; }
   .loading_hidden img {
     transform: scale(0); }
+
+.note {
+  font-size: 16px;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #e9f8ff;
+  border: solid 1px #bce8f1;
+  border-radius: 4px;
+  color: #057eae; }
+  .note div {
+    font-size: 17px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; }
+    .note div img {
+      width: 18px;
+      padding: 0;
+      vertical-align: sub; }
+
+.highlight {
+  color: #df8585; }
 
 @font-face {
   font-family: Cantarell;
@@ -68,6 +100,17 @@
   font-family: Cantarell;
   font-weight: 900;
   src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Hack;
+  src: url("/fonts/Hack-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: Hack;
+  font-weight: bold;
+  src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
 .link, #global-footer small a {
   text-decoration: none;
   color: #408ACA; }
@@ -99,6 +142,27 @@
   transition-timing-function: cubic-bezier(0.62, 1.71, 1, 1.64), step-end !important; }
   .loading_hidden img {
     transform: scale(0); }
+
+.note {
+  font-size: 16px;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #e9f8ff;
+  border: solid 1px #bce8f1;
+  border-radius: 4px;
+  color: #057eae; }
+  .note div {
+    font-size: 17px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; }
+    .note div img {
+      width: 18px;
+      padding: 0;
+      vertical-align: sub; }
+
+.highlight {
+  color: #df8585; }
 
 .global-header {
   background: white;
@@ -202,6 +266,17 @@
   font-family: Cantarell;
   font-weight: 900;
   src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Hack;
+  src: url("/fonts/Hack-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: Hack;
+  font-weight: bold;
+  src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
 .link, #global-footer small a {
   text-decoration: none;
   color: #408ACA; }
@@ -234,6 +309,27 @@
   .loading_hidden img {
     transform: scale(0); }
 
+.note {
+  font-size: 16px;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #e9f8ff;
+  border: solid 1px #bce8f1;
+  border-radius: 4px;
+  color: #057eae; }
+  .note div {
+    font-size: 17px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; }
+    .note div img {
+      width: 18px;
+      padding: 0;
+      vertical-align: sub; }
+
+.highlight {
+  color: #df8585; }
+
 #global-footer {
   text-align: center;
   padding-top: 40px;
@@ -257,7 +353,7 @@ body {
   height: 210px;
   width: 100%;
   position: relative;
-  background: #73828f; }
+  background: #153e62; }
   #particles-js h2 {
     margin: 0;
     text-align: center;
@@ -280,11 +376,12 @@ main {
     vertical-align: top; }
     main .tile .container {
       display: inline-block;
-      background: #73828f;
-      width: 70px;
-      height: 70px;
+      background: #153e62;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      padding: 20px; }
+      padding: 25px;
+      box-sizing: border-box; }
       main .tile .container img {
         width: 100%;
         filter: invert(1); }
@@ -302,5 +399,21 @@ main {
         font-weight: bold; }
       main .tile p a {
         color: #408ACA; }
+
+.github {
+  background: #153e62;
+  display: inline-block;
+  margin: auto;
+  margin-bottom: 50px;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: ease-in-out 50ms; }
+  .github:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px silver; }
 
 /*# sourceMappingURL=main.css.map */

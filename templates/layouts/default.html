@@ -37,7 +37,7 @@
         <img src="/images/hex-loader.gif" alt="Loading...">
     </div>
     <script>document.getElementById('loader').classList.remove('loading_hidden')</script>
-    {% include "partials/header.html" %}
+    {% if api %}{% include "partials/header-api.html" %}{% else %}{% include "partials/header.html" %}{% endif %}
     <div class="wrapper">
         {% block body %}{% endblock %}
     </div>

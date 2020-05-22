@@ -1,17 +1,34 @@
 @import "variables"
 
+.specify
+  max-width: none !important
+  padding: 0 20px !important
+
+.menu
+  height: 15px !important
+  width: 23px
+  cursor: pointer
+  padding: 5px 3px
+  margin-right: 30px !important
+  filter: invert(0.6)
+
+  &:hover
+    filter: invert(0.4)
+
 body
   font-family: $font1
   color: $color1
 
-h3
+.small-title
   font-size: 15px
   text-transform: uppercase
   font-weight: 500
   letter-spacing: 1px
   color: $color1
-  margin: 0
-  padding: 10px 0 15px
+  margin: 30px 0 15px
+
+h4
+  margin-top: 5px
 
 
 .head
@@ -36,11 +53,144 @@ h3
       padding: 4px 7px
       background: white
 
-nav
-  h3
-    @extend h3
+.dock
+  background: #fbfbfb
+  height: calc(100% - 60px)
+  position: fixed
+  width: 100%
+  padding-left: 90px
+
+  h1
+    font-size: 23px !important
+    margin-left: 10px
+
+  .collumn
+    position: relative
+    display: inline-block
+    width: 390px
+    vertical-align: top
+    overflow: auto
+    max-height: calc(100% - 60px)
+
+  .content-collumn
+    @extend .collumn
+    width: calc(100% - 495px)
+    margin-left: 15px
+    max-height: calc(100% - 80px)
+    height: auto
+    padding-right: 15px
+    box-sizing: border-box
+    //overflow: unset
+
+  .tile
+    display: inline-block
+    background: white
+    width: 100%
+    border: solid 1px #e6e6e6
+    border-radius: 4px
+    padding: 0 18px
+    padding-bottom: 15px
+    margin-bottom: 15px
+    box-sizing: border-box
+    height: 100%
+    overflow: auto
+
+    p, label
+      font-size: 14px
+      margin-bottom: 3px
+      color: #4b4b4b
+
+    h1
+      display: inline-block
+      margin: 0
+
+    select
+      display: block
+      font-size: 13px
+      font-family: $font1
+      color: #5e5e5e
+      font-weight: 700
+      line-height: 1.3
+      padding: .6em 1.4em .6em .8em
+      width: 100%
+      max-width: 100%
+      box-sizing: border-box
+      margin: 5px 0 0
+      border: 1px solid #b9b9b9
+      box-shadow: 0 1px 0 1px rgba(0,0,0,.04)
+      border-radius: 4px
+      -moz-appearance: none
+      -webkit-appearance: none
+      appearance: none
+      background-color: #fff
+      background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23777777%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%)
+      background-repeat: no-repeat, repeat
+      background-position: right .7em top 50%, 0 0
+      background-size: .65em auto, 100%
+      outline: none
+      cursor: pointer
+
+    select::-ms-expand
+      display: none
+
+    select:hover
+      border-color: #888
+
+    select:focus
+      border-color: #aaa
+      box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7)
+      box-shadow: 0 0 0 3px -moz-mac-focusring
+      color: #5e5e5e
+      outline: none
+
+    select option
+      font-weight: normal
+
+    select:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
+
+
+.left-panel
+  position: fixed
+  background: white
+  width: 70px
+  height: calc(100% - 60px)
+  overflow: hidden
+  border-right: solid 1px #e6e6e6
+  z-index: 10
+  padding-top: 10px
 
   .item
+    display: block
+    position: relative
+    height: 50px
+    cursor: pointer
+
+    &:hover
+      background: #f9f9f9
+
+    .parent
+      width: 70px
+      line-height: 50px
+      text-align: center
+      display: inline-block
+
+      img
+        width: 30px
+        filter: invert(0.6)
+        line-height: 50px
+        display: inline-block
+        vertical-align: middle
+        margin-right: 2px
+        margin-bottom: 2px
+
+    span
+      display: none
+  /*h3
+    @extend h3
+
+  /*.item
     color: $color1
     text-decoration: none
     border: solid 1px
@@ -53,7 +203,6 @@ nav
 
 .system
   position: relative
-  padding-left: 200px
 
   .toc
     display: inline-block
@@ -72,12 +221,12 @@ nav
     position: relative
 
   h3
-    @extend h3
-    padding: 30px 0 15px
+  //  @extend h3
+  //  padding: 30px 0 15px
 
   h1
-    margin: 0
-    margin-top: -9px
+  //  margin: 0
+  //  margin-top: -9px
 
   .bookmark
     display: block
@@ -85,9 +234,70 @@ nav
     top: -55px
 
   .api
+    table
+      position: relative
+      width: 100%
+      table-layout: fixed
 
-    .package
-      border-top: solid 1px #dfdddd
+    .type-column
+      width: 12%
+
+    .docstring
+      text-align: left
+      padding-right: 5px
+      padding-left: 10px
+      font-size: 16px
+      vertical-align: top
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      width: 60%
+
+    .symbol-name-td
+      @extend .docstring
+      font-family: $font2
+      text-align: right
+      padding-top: 2px
+      width: 28%
+
+
+    .symbol-type
+      text-transform: uppercase
+      font-size: 12px
+      font-weight: 600
+      padding: 2px 7px
+      border-radius: 4px
+      color: white
+      display: inline-block
+      vertical-align: top
+      min-width: 68px
+      text-align: center
+      margin-bottom: 8px
+      margin-right: 8px
+      white-space: nowrap
+      background: #333
+
+    .macro
+      background: rgba(153, 51, 204, 0.7)
+
+    .type
+      background: #aaa
+
+    .function
+      //background: rgba(77, 119, 203, 0.7)
+      background: rgba(11, 111, 31, 0.7)
+
+    .condition, .generic-function
+      background: #333
+
+    .method
+      background: rgba(46, 83, 157, 0.7)
+
+    .variable
+      background: rgba(52, 178, 125, 0.7)
+
+    .class
+      background: rgba(224, 153, 82, 0.7)
 
     ul
       list-style: none
@@ -97,22 +307,6 @@ nav
       .symbol
         margin-bottom: 15px
         display: flex
-
-      .symbol-type
-        text-transform: uppercase
-        font-size: 12px
-        font-weight: 600
-        padding: 2px 7px
-        border-radius: 4px
-        color: white
-        display: inline-block
-        vertical-align: top
-        min-width: 68px
-        text-align: center
-        margin-bottom: 8px
-        margin-right: 8px
-        white-space: nowrap
-        background: #333
 
       .parent
         position: relative
@@ -169,7 +363,7 @@ nav
         margin-bottom: 8px
         color: gray
 
-      .docstring
+      .docstring-prev
         white-space: pre
         margin-top: 2px
         border-left: solid 1px #dfdcdc
@@ -188,6 +382,7 @@ nav
       padding: 2px 7px
       border-radius: 4px
       background: rgb(253,253,253)
+      width: auto
 
       td
         padding: 0
@@ -206,7 +401,77 @@ nav
         font-weight: 600
         margin: 6px 10px 7px
 
+#examples
+  .title
+    top: 4px
+    position: relative
+    margin-left: 5px
+
+  .remove
+    @extend .title
+    display: inline-block
+
+    a
+      color: grey
+
+      &:hover
+        color: darkred
+
 .example
+  background: #fdfdfd
+  padding: 0 10px
+  border: solid 1px #eaeaea
+  border-radius: 4px
+
+  pre
+    border-radius: 5px
+    overflow-x: auto
+    box-shadow: 0 0 2px #a6a6a6
+    border: none
+
+  code
+    display: block
+    padding: 7px 8px 6px
+    line-height: 1.3
+    text-transform: none
+    font-family: $font2
+    color: silver
+    font-size: 15px
+    font-weight: normal
+    background: #333
+
+  h1
+    margin: 10px 0 15px 0
+
+.signin
+  margin-top: 20px
   background: #fbfbfb
-  padding: 1px 11px
-  margin-bottom: 20px
+  padding: 20px
+  text-align: center
+
+.CodeMirror-scroll
+  cursor: text
+
+/*.CodeMirror-line
+  overflow-y: auto !important
+
+/*.cm-comment
+  background: rgb(242, 242, 242)
+  box-shadow: 1000px 0 0 1000px rgb(242, 242, 242)
+
+.cm-comment
+  font-family: $font2
+
+.cm-header-1, h1
+  font-size: 25px !important
+
+.cm-header-2, h2
+  font-size: 20px !important
+
+.avatar
+  display: inline-block
+  width: 22px
+  margin-top: 15px
+  margin-bottom: 10px
+  border-radius: 3px
+  vertical-align: middle

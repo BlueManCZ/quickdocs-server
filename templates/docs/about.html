@@ -1,16 +1,8 @@
 {% extends "layouts/default.html" %}
 
-{% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="/styles/about.css">
-{% endblock %}
-
 {% block body %}
-    <figure id="particles-js" class="banner" title="particles.js">
-        <div class="specify">
-            <h2 class="slogan">A simple way to share <br>Common Lisp knowledge</h2>
-            <h3>Colidocs is a fork of Quickdocs aimed at streamlining <br>the documentation and improving the API references.</h3>
-            <img src="/images/example.png" alt="example image" class="image">
-        </div>
+    <figure id="particles-js" title="particles.js">
+        <h2 class="slogan">A simple way to share <b>Common Lisp</b> knowledge</h2>
     </figure>
     <main>
         <div class="specify">
@@ -21,7 +13,7 @@
                 <h3>Everything in one place</h3>
                 <p>All <a href="https://common-lisp.net/" target="_blank">Common Lisp</a> documentation <br>is here, with the same appearance. <br><span>You can save a lot of time.</span></p>
             </div><div class="tile">
-                <div class="container" style="padding: 20px">
+                <div class="container">
                     <img src="/images/icons/view.svg" alt="eye icon">
                 </div>
                 <h3>Easy and intuitive</h3>
@@ -39,11 +31,6 @@
                 <h3>All about community</h3>
                 <p>Documentation here is written <br>and managed by community. <br><span>You can <a href="/login">join and help us</a>.</span></p>
             </div>
-        </div>
-    </main>
-    <main>
-        <div class="specify" style="text-align: center">
-            <a class="github" href="https://github.com/BlueManCZ/quickdocs-server">Show source on GitHub</a>
         </div>
     </main>
     <script src="/js/particles.js/particles.js"></script>

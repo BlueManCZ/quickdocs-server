@@ -17,6 +17,17 @@
   font-family: Cantarell;
   font-weight: 900;
   src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype"); }
+@font-face {
+  font-family: Cantarell;
+  font-weight: 200;
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype"); }
+@font-face {
+  font-family: Hack;
+  src: url("/fonts/Hack-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: Hack;
+  font-weight: bold;
+  src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
 .link {
   text-decoration: none;
   color: #408ACA; }
@@ -49,18 +60,55 @@
   .loading_hidden img {
     transform: scale(0); }
 
+.note {
+  font-size: 16px;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #e9f8ff;
+  border: solid 1px #bce8f1;
+  border-radius: 4px;
+  color: #057eae; }
+  .note div {
+    font-size: 17px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; }
+    .note div img {
+      width: 18px;
+      padding: 0;
+      vertical-align: sub; }
+
+.highlight {
+  color: #df8585; }
+
+.specify {
+  max-width: none !important;
+  padding: 0 20px !important; }
+
+.menu {
+  height: 15px !important;
+  width: 23px;
+  cursor: pointer;
+  padding: 5px 3px;
+  margin-right: 30px !important;
+  filter: invert(0.6); }
+  .menu:hover {
+    filter: invert(0.4); }
+
 body {
   font-family: Cantarell, Verdana, sans-serif;
   color: #666; }
 
-h3, nav h3, .system h3 {
+.small-title {
   font-size: 15px;
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 1px;
   color: #666;
-  margin: 0;
-  padding: 10px 0 15px; }
+  margin: 30px 0 15px; }
+
+h4 {
+  margin-top: 5px; }
 
 .head {
   padding-bottom: 38px;
@@ -81,19 +129,134 @@ h3, nav h3, .system h3 {
       padding: 4px 7px;
       background: white; }
 
-nav .item {
-  color: #666;
-  text-decoration: none;
-  border: solid 1px;
-  padding: 4px 8px;
-  border-radius: 3px;
-  margin-right: 8px;
-  outline: none;
-  background: white; }
+.dock {
+  background: #fbfbfb;
+  height: calc(100% - 60px);
+  position: fixed;
+  width: 100%;
+  padding-left: 90px; }
+  .dock h1 {
+    font-size: 23px !important;
+    margin-left: 10px; }
+  .dock .collumn, .dock .content-collumn {
+    position: relative;
+    display: inline-block;
+    width: 390px;
+    vertical-align: top;
+    overflow: auto;
+    max-height: calc(100% - 60px); }
+  .dock .content-collumn {
+    width: calc(100% - 495px);
+    margin-left: 15px;
+    max-height: calc(100% - 80px);
+    height: auto;
+    padding-right: 15px;
+    box-sizing: border-box; }
+  .dock .tile {
+    display: inline-block;
+    background: white;
+    width: 100%;
+    border: solid 1px #e6e6e6;
+    border-radius: 4px;
+    padding: 0 18px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto; }
+    .dock .tile p, .dock .tile label {
+      font-size: 14px;
+      margin-bottom: 3px;
+      color: #4b4b4b; }
+    .dock .tile h1 {
+      display: inline-block;
+      margin: 0; }
+    .dock .tile select {
+      display: block;
+      font-size: 13px;
+      font-family: Cantarell, Verdana, sans-serif;
+      color: #5e5e5e;
+      font-weight: 700;
+      line-height: 1.3;
+      padding: 0.6em 1.4em 0.6em 0.8em;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 5px 0 0;
+      border: 1px solid #b9b9b9;
+      box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #fff;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23777777%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"), linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+      background-repeat: no-repeat, repeat;
+      background-position: right 0.7em top 50%, 0 0;
+      background-size: 0.65em auto, 100%;
+      outline: none;
+      cursor: pointer; }
+    .dock .tile select::-ms-expand {
+      display: none; }
+    .dock .tile select:hover {
+      border-color: #888; }
+    .dock .tile select:focus {
+      border-color: #aaa;
+      box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+      box-shadow: 0 0 0 3px -moz-mac-focusring;
+      color: #5e5e5e;
+      outline: none; }
+    .dock .tile select option {
+      font-weight: normal; }
+    .dock .tile select:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000; }
+
+.left-panel {
+  position: fixed;
+  background: white;
+  width: 70px;
+  height: calc(100% - 60px);
+  overflow: hidden;
+  border-right: solid 1px #e6e6e6;
+  z-index: 10;
+  padding-top: 10px;
+  /*h3
+   * @extend h3 */
+  /*.item
+   * color: $color1
+   * text-decoration: none
+   * border: solid 1px
+   * padding: 4px 8px
+   * border-radius: 3px
+   * margin-right: 8px
+   * outline: none
+   * background: white */ }
+  .left-panel .item {
+    display: block;
+    position: relative;
+    height: 50px;
+    cursor: pointer; }
+    .left-panel .item:hover {
+      background: #f9f9f9; }
+    .left-panel .item .parent {
+      width: 70px;
+      line-height: 50px;
+      text-align: center;
+      display: inline-block; }
+      .left-panel .item .parent img {
+        width: 30px;
+        filter: invert(0.6);
+        line-height: 50px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 2px;
+        margin-bottom: 2px; }
+    .left-panel .item span {
+      display: none; }
 
 .system {
-  position: relative;
-  padding-left: 200px; }
+  position: relative; }
   .system .toc {
     display: inline-block;
     position: absolute;
@@ -106,17 +269,60 @@ nav .item {
         outline: none; }
   .system .package {
     position: relative; }
-  .system h3 {
-    padding: 30px 0 15px; }
-  .system h1 {
-    margin: 0;
-    margin-top: -9px; }
   .system .bookmark {
     display: block;
     position: absolute;
     top: -55px; }
-  .system .api .package {
-    border-top: solid 1px #dfdddd; }
+  .system .api table {
+    position: relative;
+    width: 100%;
+    table-layout: fixed; }
+  .system .api .type-column {
+    width: 12%; }
+  .system .api .docstring, .system .api .symbol-name-td {
+    text-align: left;
+    padding-right: 5px;
+    padding-left: 10px;
+    font-size: 16px;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%; }
+  .system .api .symbol-name-td {
+    font-family: Hack, monospace;
+    text-align: right;
+    padding-top: 2px;
+    width: 28%; }
+  .system .api .symbol-type {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: white;
+    display: inline-block;
+    vertical-align: top;
+    min-width: 68px;
+    text-align: center;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    white-space: nowrap;
+    background: #333; }
+  .system .api .macro {
+    background: rgba(153, 51, 204, 0.7); }
+  .system .api .type {
+    background: #aaa; }
+  .system .api .function {
+    background: rgba(11, 111, 31, 0.7); }
+  .system .api .condition, .system .api .generic-function {
+    background: #333; }
+  .system .api .method {
+    background: rgba(46, 83, 157, 0.7); }
+  .system .api .variable {
+    background: rgba(52, 178, 125, 0.7); }
+  .system .api .class {
+    background: rgba(224, 153, 82, 0.7); }
   .system .api ul {
     list-style: none;
     padding: 0;
@@ -124,21 +330,6 @@ nav .item {
     .system .api ul .symbol {
       margin-bottom: 15px;
       display: flex; }
-    .system .api ul .symbol-type {
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 4px;
-      color: white;
-      display: inline-block;
-      vertical-align: top;
-      min-width: 68px;
-      text-align: center;
-      margin-bottom: 8px;
-      margin-right: 8px;
-      white-space: nowrap;
-      background: #333; }
     .system .api ul .parent {
       position: relative;
       display: block;
@@ -178,7 +369,7 @@ nav .item {
       margin-top: -1px;
       margin-bottom: 8px;
       color: gray; }
-    .system .api ul .docstring {
+    .system .api ul .docstring-prev {
       white-space: pre;
       margin-top: 2px;
       border-left: solid 1px #dfdcdc;
@@ -191,7 +382,8 @@ nav .item {
     border: solid 1px #eee;
     padding: 2px 7px;
     border-radius: 4px;
-    background: #fdfdfd; }
+    background: #fdfdfd;
+    width: auto; }
     .system .api .slot-list td {
       padding: 0; }
     .system .api .slot-list .symbol-name {
@@ -207,9 +399,69 @@ nav .item {
       font-weight: 600;
       margin: 6px 10px 7px; }
 
+#examples .title, #examples .remove {
+  top: 4px;
+  position: relative;
+  margin-left: 5px; }
+#examples .remove {
+  display: inline-block; }
+  #examples .remove a {
+    color: grey; }
+    #examples .remove a:hover {
+      color: darkred; }
+
 .example {
+  background: #fdfdfd;
+  padding: 0 10px;
+  border: solid 1px #eaeaea;
+  border-radius: 4px; }
+  .example pre {
+    border-radius: 5px;
+    overflow-x: auto;
+    box-shadow: 0 0 2px #a6a6a6;
+    border: none; }
+  .example code, .example .system .api ul .lambda-list, .system .api ul .example .lambda-list, .example .system .api ul .initial-value, .system .api ul .example .initial-value {
+    display: block;
+    padding: 7px 8px 6px;
+    line-height: 1.3;
+    text-transform: none;
+    font-family: Hack, monospace;
+    color: silver;
+    font-size: 15px;
+    font-weight: normal;
+    background: #333; }
+  .example h1 {
+    margin: 10px 0 15px 0; }
+
+.signin {
+  margin-top: 20px;
   background: #fbfbfb;
-  padding: 1px 11px;
-  margin-bottom: 20px; }
+  padding: 20px;
+  text-align: center; }
+
+.CodeMirror-scroll {
+  cursor: text; }
+
+/*.CodeMirror-line
+ * overflow-y: auto !important */
+/*.cm-comment
+ * background: rgb(242, 242, 242)
+ * box-shadow: 1000px 0 0 1000px rgb(242, 242, 242) */
+.cm-comment {
+  font-family: Hack, monospace; }
+
+.cm-header-1, h1 {
+  font-size: 25px !important; }
+
+.cm-header-2, h2 {
+  font-size: 20px !important; }
+
+.avatar {
+  display: inline-block;
+  width: 22px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  vertical-align: middle; }
 
 /*# sourceMappingURL=api.css.map */

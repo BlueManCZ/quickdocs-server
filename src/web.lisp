@@ -103,6 +103,8 @@
 
 @route GET "/login"
 (defun login (&key |next|)
+  (if (gethash :id *session*)
+      (redirect "/account"))
   (if |next|
     (redirect (format nil "/login/github?next=~A" |next|))
     (redirect "/login/github")))
@@ -174,7 +176,12 @@
 (defun account ()
   (if (not (gethash :id *session*))
       (redirect "/login")
-    (render #P"user.html")))
+    (let ((examples (retrieve-all
+                      (select :*
+                        (from :examples)
+                        (where (:= :user_id (gethash :id *session*)))))))
+
+      (render #P"user.html" `(:examples ,examples)))))
 
 @route GET "/logout"
 (defun logout ()
@@ -186,8 +193,20 @@
   (let ((result (retrieve-all
                   (select :*
                     (from :users)))))
-    (format t "~A" result)
     (render #P"users.html" `(:users ,result))))
+
+@route GET "/docs/"
+(defun docs (&key page)
+  (render #P"docs/index.html"))
+
+@route GET "/docs/:page"
+(defun docs (&key page)
+  (format t "Haha ~A" page)
+  (cond
+    ((string-equal page "about") (render #P"docs/about.html"))
+    ((string-equal page "examples") (render #P"docs/examples.html"))
+    ((eq NIL page) (render #P"docs/index.html"))
+    (t (throw-code 404))))
 
 @route GET "/:project-name/"
 (defun project-page (&key project-name |force-raw|)
@@ -208,9 +227,10 @@
       (render #P"project.html"
               `(:project-name ,project-name
                 :ql-dist-version ,(project-release-version project)
-                :homepage    ,(project-homepage-url* project)
-                :repos-url   ,(project-repos-url project)
-                :archive-url ,(project-archive-url project)
+                :homepage     ,(project-homepage-url* project)
+                :repos-url    ,(project-repos-url project)
+                :archive-url  ,(project-archive-url project)
+                :archive-name ,(car (last (uiop:split-string (project-archive-url project) :separator "/")))
                 :readme ,(let ((readme (project-readme project)))
                            (when readme
                              (list :converted (unless |force-raw| (project-readme-converted readme))
@@ -238,7 +258,8 @@
               :homepage    ,(project-homepage-url* project)
               :repos-url   ,(project-repos-url project)
               :archive-url ,(project-archive-url project)
-              :systems     ,(get-system-details (project-systems project))))))
+              :systems     ,(get-system-details (project-systems project))
+              :api         1))))
 
 @route GET "/:project-name/api/:system"
 (defun system-detail (&key project-name system)
@@ -258,7 +279,8 @@
                 :homepage    ,(project-homepage-url* project)
                 :repos-url   ,(project-repos-url project)
                 :archive-url ,(project-archive-url project)
-                :systems     ,(get-system-details systems))))))
+                :systems     ,(get-system-details systems)
+                :api         1)))))
 
 @route GET "/:project-name/api/:system/:package"
 (defun package-detail (&key project-name system package)
@@ -278,7 +300,8 @@
                 :homepage    ,(project-homepage-url* project)
                 :repos-url   ,(project-repos-url project)
                 :archive-url ,(project-archive-url project)
-                :systems     ,(get-system-details systems package))))))
+                :systems     ,(get-system-details systems package)
+                :api         1)))))
 
 @route GET "/:project-name/api/:system/:package/:symbol"
 (defun symbol-detail (&key project-name system package symbol)
@@ -288,14 +311,17 @@
 
     (let ((systems (filter-system system (project-systems project)))
           (examples (retrieve-all
-                      (select (:id :user_id :converted)
+                      (select (:examples.id :user_id :converted :avatar_url :login :user_name)
                         (from :examples)
+                        (left-join :users :on (:= :examples.user_id :users.id))
                         (where (:and (:= :project_name project-name)
                                      (:= :project_system system)
                                      (:= :project_package package)
                                      (:= :project_symbol symbol)))))))
       (unless systems
         (throw-code 404))
+
+      (format t "*** ~A" (quri:url-encode symbol))
 
       (render #P"symbol.html"
               `(:project-name ,project-name
@@ -305,7 +331,8 @@
                 :archive-url ,(project-archive-url project)
                 :examples    ,examples
                 :url         ,(format nil "/~A/api/~A/~A/~A" project-name system package symbol)
-                :systems     ,(get-system-details systems package symbol))))))
+                :systems     ,(get-system-details systems package symbol)
+                :api         1)))))
 
 @route POST "/:project-name/api/:system/:package/:symbol"
 (defun symbol-detail-post (&key project-name system package symbol _parsed)
@@ -324,6 +351,18 @@
                 :markdown (getf param (intern (string-upcase "text")))
                 :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "text")))) :from "markdown-raw_html"))))))
   (redirect (format nil "/~A/api/~A/~A/~A" project-name system package symbol)))
+
+@route POST "/remove-example/:id"
+(defun remove-comment (&key id)
+  (let ((user-id (retrieve-one
+                    (select :user_id
+                      (from :examples)
+                      (where (:= :id id))))))
+    (if (and (gethash :id *session*) (getf user-id :user-id) (= (getf user-id :user-id) (gethash :id *session*)))
+      (execute
+        (delete-from :examples
+          (where (:= :id id))))
+      "You have no rights to perform this action.")))
 
 @route GET "/search"
 (defun search-page (&key |q|)

@@ -22,7 +22,22 @@
   font-weight: 900
   src: url("/fonts/Cantarell-ExtraBold.otf") format("opentype")
 
+@font-face
+  font-family: Cantarell
+  font-weight: 200
+  src: url("/fonts/Cantarell-Thin.otf") format("opentype")
+
+@font-face
+  font-family: Hack
+  src: url("/fonts/Hack-Regular.ttf") format("truetype")
+
+@font-face
+  font-family: Hack
+  font-weight: bold
+  src: url("/fonts/Hack-Bold.ttf") format("truetype")
+
 $font1: Cantarell, Verdana, sans-serif
+$font2: Hack, monospace
 
 $color1: #666
 $color2: #333
@@ -38,7 +53,7 @@ $color11: #88C8FF
 $color12: #6294c1
 //$background1: #f5f6f7
 $background1: #f0f0f0
-$background2: #73828f
+$background2: #153e62
 $background3: #545f68
 $background4: #333
 $background5: #fbfbfb
@@ -78,3 +93,26 @@ $background5: #fbfbfb
 
   img
     transform: scale(0)
+
+.note
+  font-size: 16px
+  margin-top: 5px
+  padding: 10px
+  background-color: #e9f8ff
+  border: solid 1px #bce8f1
+  border-radius: 4px
+  color: #057eae
+
+  div
+    font-size: 17px
+    display: block
+    margin-bottom: 5px
+    font-weight: bold
+
+    img
+      width: 18px
+      padding: 0
+      vertical-align: sub
+
+.highlight
+  color: $color9
