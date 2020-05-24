@@ -40,6 +40,12 @@
                 </select>
             </label>
         </div><div class="tile">
+            <h2>Filter</h2>
+            <label>
+                Search symbol<br>
+                <input type="text" class="search" oninput="searchSymbol(this.value)">
+            </label>
+        </div><div class="tile">
             <h2>Details</h2>
             <p>Selected system</p>
             <h1 class="highlight" id="current-system">1am</h1>
@@ -247,7 +253,7 @@
 
     function searchSymbol(filter) {
         for (let i = 0; i < symbols.length; i++) {
-            let name = symbols[i].childNodes[3].childNodes[1].innerHTML;
+            let name = symbols[i].childNodes[3].childNodes[0].innerHTML;
             if (name.toUpperCase().indexOf(filter.toUpperCase()) > -1) {
               symbols[i].style.display = '';
             } else {

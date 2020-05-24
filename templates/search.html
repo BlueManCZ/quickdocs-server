@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="/styles/search.css">
 {% endblock %}
 {% block body %}
-    <div class="banner">
+    <div class="banner" id="banner">
         <div class="specify">
           {% if query == "" %}
           <h2>All {{ projects | length }} Projects</h2>
@@ -39,7 +39,6 @@
                     {% if project.download-count %}
                     <div class="download-count">{{ project.download-count }}x</div>
                     {% endif %}
-                    <p class="categories"></p>
                 </div>
               </li>
             {% endfor %}

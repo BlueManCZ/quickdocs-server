@@ -97,7 +97,8 @@
     top: 210px;
     height: 0;
     margin: 0;
-    left: 60px; }
+    left: 60px;
+    max-width: 540px; }
   .banner .image {
     display: block;
     position: absolute;

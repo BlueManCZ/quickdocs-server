@@ -11,7 +11,7 @@
     <header>
         <div class="specify">
             <h2 class="project-name"><b>Documentation page</b> for project <a href="/{{ project-name | urlencode }}/">{{ project-name }}</a></h2>
-            <h2 style="float: right" class="project-name"><a href="api">API Reference</a></h2>
+            <a href="api" class="api">API Reference</a>
             <p class="subtitle ql-version">Quicklisp version: <b>{{ ql-dist-version }}</b> <span id="reading-time"></span></p>
             <p class="subtitle">{% if authors %}<b>Made by:</b> <span id="authors">{{ authors | join:", " }}</span>{% endif %}</p>
         </div>
@@ -108,7 +108,7 @@
                 </tr>
                 {% endif %}
                 <tr>
-                    <td>Quicklisp version</td>
+                    <td style="white-space: nowrap">Quicklisp version</td>
                     <td>{{ ql-dist-version }}</td>
                 </tr>
                 {% if categories %}

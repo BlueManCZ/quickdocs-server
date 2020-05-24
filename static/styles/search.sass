@@ -1,10 +1,11 @@
 @import "variables"
 
-.banner
+#banner
   font-family: $font1
   background-color: $background2
   color: white
   padding: 30px 0
+  height: auto !important
 
   h2
     margin: 0
@@ -69,6 +70,9 @@
         font-size: 16px
         margin-top: 5px
         color: $color1
+        max-height: 40px
+        overflow: hidden
+        text-overflow: ellipsis
 
       .api
         @extend .description
@@ -90,7 +94,6 @@
         top: 0
         text-align: right
         padding: 5px 0
-        height: 100%
 
         .button
           color: $color5
@@ -104,19 +107,6 @@
         .download-count
           color: $color1
           font-size: 13px
-
-        .categories
-          position: absolute
-          bottom: 0
-          right: 0
-          white-space: nowrap
-
-          a
-            @extend .button
-
-
-      //&:nth-child(2n+1)
-      //  background-color: $color4
 
   .no-results
     font-size: 20px

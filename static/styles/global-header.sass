@@ -10,6 +10,7 @@
   z-index: 1000
   top: 0
   box-shadow: 0 0 2px
+  height: 30px
 
   .specify
     top: 2px
@@ -99,3 +100,16 @@
 
         .submit
           display: none
+
+@media (max-width: 800px)
+  .global-header
+    span
+      display: none
+
+@media (max-width: 620px)
+  .global-header
+    .right-side nav
+      form
+        display: none
+      .separator
+        margin-top: 6px
