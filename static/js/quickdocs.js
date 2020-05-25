@@ -108,11 +108,15 @@ function parseAttributes() {
         }
     }
 
-    if (systemName && packageName) {
-        showSelected(systemName, packageName);
-        document.getElementById('select').value = systemName + '.' + packageName;
-    } else {
-        document.getElementById('select').oninput(undefined);
+    let select = document.getElementById('select');
+
+    if (select) {
+        if (systemName && packageName) {
+            showSelected(systemName, packageName);
+            select.value = systemName + '.' + packageName;
+        } else {
+            select.oninput(undefined);
+        }
     }
 }
 

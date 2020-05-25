@@ -195,6 +195,10 @@
                     (from :users)))))
     (render #P"users.html" `(:users ,result))))
 
+@route GET "/categories"
+(defun categories ()
+  (render #P"categories.html"))
+
 @route GET "/docs/"
 (defun docs (&key page)
   (render #P"docs/index.html"))

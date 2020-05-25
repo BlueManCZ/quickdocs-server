@@ -1,0 +1,51 @@
+{% extends "layouts/default.html" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="/styles/about.css">
+{% endblock %}
+
+{% block body %}
+    <figure id="particles-js" class="banner" title="particles.js">
+        <div class="specify">
+            <h2 class="slogan">A simple way to share <br>Common Lisp knowledge</h2>
+            <h3>Colidocs is a fork of Quickdocs aimed at streamlining the documentation and improving the API references.</h3>
+            <img src="/images/example.png" alt="example image" class="image">
+            <form method="get" action="/search">
+                <label><input type="text" name="q" placeholder="Quick search"></label><input class="submit" type="submit">
+            </form>
+        </div>
+    </figure>
+    <main style="padding-top: 20px">
+        <div class="specify">
+            <h2 style="margin-left: 20px;color: #002e57;font-size: 21px;">Browse categories:</h2>
+            <a href="/search?q=web" class="category">
+                <img src="/images/icons/global.svg" alt="global">
+                Web development
+            </a><a href="/search?q=graphics" class="category">
+                <img src="/images/icons/monitor.svg" alt="monitor">
+                Graphics
+            </a><a href="/search?q=GUI" class="category">
+                <img src="/images/icons/setup.svg" alt="setup">
+                GUI
+            </a><a href="/search?q=system+programming" class="category">
+                <img src="/images/icons/gear.svg" alt="gear">
+                System & Low-level
+            </a><a href="/search?q=test" class="category">
+                <img src="/images/icons/tick.svg" alt="tick">
+                Testing framework
+            </a><a href="/search?q=database" class="category">
+                <img src="/images/icons/layers.svg" alt="layers">
+                Database
+            </a><a href="/search?q=utilities" class="category">
+                <img src="/images/icons/star.svg" alt="star">
+                Utility Collection
+            </a><a href="/search?q=concurrency" class="category">
+                <img src="/images/icons/folder.svg" alt="folder">
+                Concurrency
+            </a>
+        </div>
+    </main>
+    {% include "partials/footer.html" %}
+    <script src="/js/particles.js/particles.js"></script>
+    <script src="/js/particles.js/app.js"></script>
+{% endblock %}

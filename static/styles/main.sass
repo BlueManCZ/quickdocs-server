@@ -73,6 +73,31 @@ main
       a
         color: $color5
 
+  .category
+    display: inline-block
+    text-align: center
+    width: calc(25% - 40px)
+    vertical-align: top
+    margin: 15px 20px
+    background: #153e62
+    color: white
+    font-weight: bold
+    font-size: 17px
+    padding: 10px
+    box-sizing: border-box
+    border-radius: 4px
+    text-decoration: none
+    transition: 20ms ease-in-out
+
+    &:hover
+      opacity: 0.8
+
+    img
+      width: 23px
+      vertical-align: top
+      margin-right: 4px
+
+
 .github
   background: $background2
   display: inline-block
@@ -133,7 +158,7 @@ main
       left: 0
       text-align: center !important
 
-  main .tile
+  main .tile, .category
     width: calc(50% - 40px) !important
     padding-bottom: 10px
 
@@ -152,7 +177,7 @@ main
       max-width: 370px
 
 @media (max-width: 620px)
-  main .tile
+  main .tile, .category
     width: calc(100% - 30px) !important
 
   .banner

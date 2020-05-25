@@ -5,7 +5,7 @@
             <nav>
                 <form method="get" action="/search">
                     <label><input type="text" name="q" placeholder="Quick search"></label><input class="submit" type="submit">
-                </form><a href="#" class="browser">Browse packages</a><div class="separator"></div><!--a href="/docs/about">About project</a><div class="separator"></div-->{% if session.login %}<a href="/account">{{session.login}}</a>{% else %}<a href="/login{% if url %}?next={{ url }}{% endif %}">Sign in</a>{% endif %}
+                </form><a href="/categories" class="browser">Browse categories</a><div class="separator"></div><!--a href="/docs/about">About project</a><div class="separator"></div-->{% if session.login %}<a href="/account">{{session.login}}</a>{% else %}<a href="/login{% if url %}?next={{ url }}{% endif %}">Sign in</a>{% endif %}
             </nav>
         </div>
     </div>
