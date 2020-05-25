@@ -6,12 +6,8 @@
 {% block body %}
     <div class="banner" id="banner">
         <div class="specify">
-          {% if query == "" %}
-          <h2>All {{ projects | length }} Projects</h2>
-          {% else %}
           <h2>Search Results <span class="search-query">for query: <b>{{ query }}</b></span></h2>
           <p class="search-results-summary"><strong>{{ projects | length }}</strong> project{% if len > 1 %}s{% endif %} found.</p>
-          {% endif %}
         </div>
     </div>
 

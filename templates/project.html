@@ -15,7 +15,6 @@
             <p class="subtitle ql-version">Quicklisp version: <b>{{ ql-dist-version }}</b> <span id="reading-time"></span></p>
             <p class="subtitle">{% if authors %}<b>Made by:</b> <span id="authors">{{ authors | join:", " }}</span>{% endif %}</p>
         </div>
-    <!--{% include "partials/header-links.html" %}-->
     </header>
     <article class="readme">
         <div class="specify">
@@ -165,55 +164,6 @@
               </table>
             </section>
             {% endif %}
-
-        <!--    <aside class="dependencies">
-              <h3>Requirements</h3>
-              <span class="count">{{ dependencies-count }}</span>
-              {% if dependencies %}
-              <ul class="folding-list">
-                {% for dependency in dependencies %}
-                <li>
-                  <a href="/{{ dependency.name | urlencode }}/">
-                    <span class="name">{{ dependency.name }}</span>
-                    <span class="description">{{ dependency.description }}</span>
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-              {% else %}
-              <em class="none">None.</em>
-              {% endif %}
-            </aside>
-
-            <aside class="depending">
-              <h3>Required by</h3>
-              <span class="count">{{ dependees | length }}</span>
-              {% if dependees %}
-              <ul class="folding-list">
-                {% for dependee in dependees %}
-                <li>
-                  <a href="/{{ dependee.name | urlencode }}/">
-                    <span class="name">{{ dependee.name }}</span>
-                    <span class="description">{{ dependee.description }}</span>
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-              {% endif %}
-            </aside>
-
-            <aside class="links">
-              <h3>Links</h3>
-              <ul>
-                <li><a href="/{{ project-name | urlencode }}/api">API Reference</a></li>
-                {% if homepage %}
-                <li><a href="{{ homepage }}">Website</a></li>
-                {% endif %}
-                {% if repos-url %}
-                <li><a href="{{ repos-url }}">Source Code</a></li>
-                {% endif %}
-              </ul>
-            </aside>-->
         </div>
     </article>
 {% include "partials/footer.html" %}

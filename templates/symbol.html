@@ -21,9 +21,7 @@
 
 
 <div class="dock">
-
     <h1>API Reference</h1>
-
     <div class="collumn">
         <div class="tile">
             <h2>Informations</h2>
@@ -45,15 +43,6 @@
             {% for system in systems %}
             <article>
                 <div class="system" id="system-{{ system.name }}">
-                    <!--header>
-                    <div class="bookmark" id="system-{{ system.name }}"></div>
-                    <h3>System</h3>
-                    <h1><a class="link" href="api/{{ system.name }}">{{ system.name }}</a></h1>
-                    {% if system.description %}
-                    <p class="description">{{ system.description }}</p>
-                    {% endif %}
-                    </header-->
-
                     <div class="api">
                     {% for package in system.packages %}
                       <section class="package" style="border: none">
@@ -84,34 +73,6 @@
                                 {% endif %}
                                 {% if symbol.type == "class" or symbol.type == "struct" %}
                                 {% if symbol.slots %}
-                                <!--<dl class="slot-list">
-                                  {% for slot in symbol.slots %}
-                                  <dt>
-                                    <code class="symbol-name">{{ slot.name | symbol }}</code>
-                                    {% if slot.accessors %}
-                                    &nbsp;&nbsp;<span class="label">Accessor</span>:
-                                    {% for accessor in slot.accessors %}
-                                    <code class="symbol-name">{{ accessor | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-                                    {% endif %}
-                                    {% if slot.readers %}
-                                    &nbsp;&nbsp;<span class="label">Reader</span>:
-                                    {% for reader in slot.readers %}
-                                    <code class="symbol-name">{{ reader | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-                                    {% endif %}
-                                    {% if slot.writers %}
-                                    &nbsp;&nbsp;<span class="label">Writer</span>:
-                                    {% for writer in slot.writer %}
-                                    <code class="symbol-name">{{ writer | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-                                    {% endif %}
-                                  </dt>
-                                  {% if slot.docstring %}
-                                  <dd>{{ slot.docstring }}</dd>
-                                  {% endif %}
-                                  {% endfor %}
-                                </dl>-->
                                 <table class="slot-list">
                                 {% for slot in symbol.slots %}
                                     <tr>
@@ -166,7 +127,6 @@
         </div>
             <article>
                 <div id="examples" class="system" style="padding-left: 0">
-                    <!--div class="bookmark" id="system-{{ system.name }}"></div-->
                     {% if not examples %}<div class="note"><div><img src="/images/icons/note2.png"> Note</div>There are currently no user examples. You can create one.</div>{% endif %}
                     {% for example in examples %}
                         <header>
@@ -215,212 +175,10 @@
                 </div>
             </article>
     </div>
-
-<!--
-{% for system in systems %}
-<article>
-    <div class="specify">
-        <div class="system">
-            <nav class="toc">
-                <div class="sticky">
-                    <h3>Package Index</h3>
-                    <div class="toc-packages">
-                    {% for package in system.packages %}
-                      <div><a class="link" href="#package-{{ package.name }}" title="{{ package.name }}">{{ package.name }}</a></div>
-                    {% endfor %}
-                    </div>
-                </div>
-            </nav>
-
-            <header>
-            <div class="bookmark" id="system-{{ system.name }}"></div>
-            <h3>System</h3>
-            <h1><a class="link" href="api/{{ system.name }}">{{ system.name }}</a></h1>
-            {% if system.description %}
-            <p class="description">{{ system.description }}</p>
-            {% endif %}
-            </header>
-
-            <div class="api">
-            {% for package in system.packages %}
-              <section class="package">
-                <div class="bookmark" id="package-{{ package.name }}"></div>
-                <h3>Package</h3>
-                <h1><a class="link" href="#package-{{ package.name }}">{{ package.name }}</a></h1>
-                {% if package.docstring %}
-                <div class="docstring"><pre>{{ package.docstring }}</pre></div>
-                {% endif %}
-                {% if package.external-symbols %}
-                <h3>Symbols in package</h3>
-                <ul>
-                  {% for symbol in package.external-symbols %}
-                  <li class="symbol">
-                    <div><span class="symbol-type label {{ symbol.type }}">{{ symbol.type | capfirst }}</span></div>
-                    <div class="parent">
-                        <code class="symbol-name"><a class="link" href="/{{ project-name }}/api/{{ system.name }}/{{ package.name }}/{{ symbol.name }}">{% if symbol.setfp %}(setf {{ symbol.name }}){% else %}{{ symbol.name }}{% endif %}</a></code>
-                        {% if symbol.lambda-list %}
-                        <span class="lambda-list">
-                          {{ symbol.lambda-list | lambda-list | safe }}
-                        </span>
-                        {% endif %}
-                        {% if symbol.superclasses %}
-                        &nbsp;<code>(</code>{% for superclass in symbol.superclasses %}<code class="symbol-name">{{ superclass | symbol }}</code>{% if not forloop.last %}<code>,</code> {% endif %}{% endfor %}<code>)</code>
-                        {% endif %}
-                        {% if symbol.include-structs %}
-                            includes <code>(</code>{% for include in symbol.include-structs %}<code class="symbol-name">{{ include | symbol }}</code>{% if not forloop.last %}<code>,</code> {% endif %}{% endfor %}<code>)</code>
-                        {% endif %}
-                        {% if symbol.initial-value %}
-                        <pre class="initial-value">{{ symbol.initial-value | lower }}</pre>
-                        {% endif %}
-                        {% if symbol.docstring %}
-                        <div class="docstring">{{ symbol.docstring }}</div>
-                        {% endif %}
-                        {% if symbol.type == "class" or symbol.type == "struct" %}
-                        {% if symbol.slots %}
-                        <table class="slot-list">
-                        {% for slot in symbol.slots %}
-                            <tr>
-                                <td><code class="symbol-name">{{ slot.name | symbol }}</code></td>
-                                {% if slot.accessors %}
-                                <td><span class="label">Accessor:</span></td>
-                                <td>
-                                {% for accessor in slot.accessors %}
-                                <code class="symbol-name">{{ accessor | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                                {% endif %}
-
-                                {% if slot.readers %}
-                                <td><span class="label">Reader:</span></td>
-                                <td>
-                                {% for reader in slot.readers %}
-                                <code class="symbol-name">{{ reader | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                                {% endif %}
-
-                                {% if slot.writers %}
-                                <td><span class="label">Writer:</span></td>
-                                <td>
-                                {% for writer in slot.writers %}
-                                <code class="symbol-name">{{ writer | symbol }}</code>{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                                {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </table>
-                        {% else %}
-                        <div class="nothing">No slots.</div>
-                        {% endif %}
-                        {% endif %}
-                    </div>
-                  </li>
-                  {% endfor %}
-                </ul>
-                {% else %}
-                <div class="nothing">No exported symbols.</div>
-                {% endif %}
-                {% if package.reexport-symbols %}
-                <h3>Also exports</h3>
-                <ul class="also-exports">
-                {% for symbol in package.reexport-symbols %}
-                  <li><code class="symbol-name">{{ symbol | symbol-with-package }}</code></li>
-                {% endfor %}
-                </ul>
-                {% endif %}
-              </section>
-            {% endfor %}
-            {% if not system.packages %}
-              <div class="nothing">No packages.</div>
-            {% endif %}
-            </div>
-        </div>
-    </div>
-</article>
-{% endfor %}-->
 </div>
 
-<!--{% include "partials/footer.html" %}
-
-<ul class="breadcrumb-header-container" style="display: none">
-  <li><a href="#global-header" class="top-link lsf">home</a></li>
-</ul>
-<div class="pager-link-container" style="display: none">
-  <a class="pager-link lsf-icon" title="up">Prev</a>
-  <a class="pager-link lsf-icon" title="down">Next</a>
-</div>
--->
 <script>
-    let symbols = document.getElementsByClassName('symbol');
-
-    function searchSymbol(filter) {
-        for (let i = 0; i < symbols.length; i++) {
-            let name = symbols[i].childNodes[3].childNodes[1].innerHTML;
-            if (name.toUpperCase().indexOf(filter.toUpperCase()) > -1) {
-              symbols[i].style.display = '';
-            } else {
-              symbols[i].style.display = 'none';
-            }
-        }
-    }
-
-    function toggleAttribute(attribute, value) {
-        let items = window.location.search.substring(1).split('&');
-        console.log(items);
-        let url = window.location.pathname;
-
-        let toggled = false;
-        let mark = false; // question mark present?
-
-        for (let i = 0; i < items.length; i++) {
-            let s = items[i].split('=');
-            if (s.length === 2) {
-                if (s[1] !== value || s[0] !== attribute) {
-                    if (!mark) {
-                        url += '?';
-                        mark = true;
-                    } else {
-                        url += '&';
-                    }
-                    url += s[0] + '=' + s[1];
-                } else {
-                    toggled = true;
-                }
-            }
-        }
-
-        if (!toggled) {
-            if (!mark) {
-                url += '?';
-            } else {
-                url += '&';
-            }
-            url += attribute + '=' + value;
-        }
-
-        window.history.replaceState(null, null, url);
-    }
-
-    function parseAttributes() {
-        let items = window.location.search.substring(1).split('&');
-
-        let systemName;
-        let packageName;
-
-        for (let i = 0; i < items.length; i++) {
-            let s = items[i].split('=');
-            if (s.length === 2 && s[0] === 'find') {
-                searchSymbol(s[1]);
-            }
-        }
-
-        //let re = new RegExp('&'+categories+'(?:=([^&]*))?(?=&|$)','i');
-        //return (s=s.replace(/^?/,'&').match(re)) ? (typeof s[1] == 'undefined' ? '' : decodeURIComponent(s[1])) : undefined;
-    }
-
-    parseAttributes();
-
     var simplemde = new SimpleMDE({showIcons: ["code", "table"]});
-
 </script>
 
 {% endblock %}

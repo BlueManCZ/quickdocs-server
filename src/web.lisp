@@ -261,48 +261,6 @@
               :systems     ,(get-system-details (project-systems project))
               :api         1))))
 
-@route GET "/:project-name/api/:system"
-(defun system-detail (&key project-name system)
-  (let ((project (retrieve-project project-name)))
-    (unless project
-      (throw-code 404))
-
-    ;(format t "~A" (mapcan (lambda (x) (and (equal (system-name x) system) (list x))) (project-systems project)))
-    (format t "~A" (mapcan (lambda (x) (and (equal (system-name x) system) (list x))) (project-systems project)))
-
-    (let ((systems (filter-system system (project-systems project))))
-      (unless systems
-        (throw-code 404))
-      (render #P"system.html"
-              `(:project-name ,project-name
-                :ql-dist-version ,(project-ql-dist-version project)
-                :homepage    ,(project-homepage-url* project)
-                :repos-url   ,(project-repos-url project)
-                :archive-url ,(project-archive-url project)
-                :systems     ,(get-system-details systems)
-                :api         1)))))
-
-@route GET "/:project-name/api/:system/:package"
-(defun package-detail (&key project-name system package)
-  (let ((project (retrieve-project project-name)))
-    (unless project
-      (throw-code 404))
-
-    (let ((systems (filter-system system (project-systems project))))
-      (unless systems
-        (throw-code 404))
-
-      (format t "~A" (system-extracted-info-packages (system-extracted-info (car systems))))
-
-      (render #P"package.html"
-              `(:project-name ,project-name
-                :ql-dist-version ,(project-ql-dist-version project)
-                :homepage    ,(project-homepage-url* project)
-                :repos-url   ,(project-repos-url project)
-                :archive-url ,(project-archive-url project)
-                :systems     ,(get-system-details systems package)
-                :api         1)))))
-
 @route GET "/:project-name/api/:system/:package/:symbol"
 (defun symbol-detail (&key project-name system package symbol)
   (let ((project (retrieve-project project-name)))
@@ -410,5 +368,4 @@
 
 (defmethod on-exception ((app <web>) (code (eql 404)))
   (declare (ignore app))
-  (merge-pathnames #P"_errors/404.html"
-                   *template-directory*))
+  (render #P"_errors/404.html"))
