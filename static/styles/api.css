@@ -81,6 +81,9 @@
 .highlight {
   color: #df8585; }
 
+body {
+  background: #fbfbfb !important; }
+
 .specify {
   max-width: none !important;
   padding: 0 20px !important; }
@@ -286,6 +289,8 @@ h4 {
     position: relative;
     width: 100%;
     table-layout: fixed; }
+  .system .api .type-column {
+    width: 133px; }
   .system .api .docstring, .system .api .symbol-name-td {
     text-align: left;
     padding-right: 5px;
@@ -300,7 +305,7 @@ h4 {
     font-family: Hack, monospace;
     text-align: right;
     padding-top: 2px;
-    width: 28%; }
+    width: 300px; }
   .system .api .symbol-type {
     text-transform: uppercase;
     font-size: 12px;
@@ -470,5 +475,20 @@ h4 {
   margin-bottom: 10px;
   border-radius: 3px;
   vertical-align: middle; }
+
+@media (max-width: 1200px) {
+  .left-panel {
+    display: none; }
+
+  .dock {
+    position: relative;
+    padding-left: 15px; }
+
+  .collumn, .dock .content-collumn {
+    width: calc(100% - 30px) !important; }
+
+  .content-collumn {
+    margin-left: 0 !important;
+    padding-right: 0 !important; } }
 
 /*# sourceMappingURL=api.css.map */

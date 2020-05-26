@@ -1,5 +1,8 @@
 @import "variables"
 
+body
+  background: #fbfbfb !important
+
 .specify
   max-width: none !important
   padding: 0 20px !important
@@ -250,6 +253,7 @@ h4
       table-layout: fixed
 
     .type-column
+      width: 133px
 
     .docstring
       text-align: left
@@ -267,8 +271,7 @@ h4
       font-family: $font2
       text-align: right
       padding-top: 2px
-      width: 28%
-
+      width: 300px
 
     .symbol-type
       text-transform: uppercase
@@ -484,3 +487,18 @@ h4
   margin-bottom: 10px
   border-radius: 3px
   vertical-align: middle
+
+@media (max-width: 1200px)
+  .left-panel
+    display: none
+
+  .dock
+    position: relative
+    padding-left: 15px
+
+  .collumn
+    width: calc(100% - 30px) !important
+
+  .content-collumn
+    margin-left: 0 !important
+    padding-right: 0 !important
