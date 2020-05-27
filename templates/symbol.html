@@ -137,7 +137,7 @@
                         <header>
                             <img class="avatar" alt="Avatar image" src="{{ example.avatar-url }}" title="{% if example.user-name %}{{ example.user-name}}{% else %}{{example.login }}{% endif %}">
                             <span class="title"><b>{{ example.login }}</b> created an example. </span>
-                            {% if not example.user-id == session.id %}<a href="#" class="remove" onclick="document.getElementById('edit-{{ example.id }}').parentElement.style.display = '';document.getElementById('example-{{ example.id }}').style.display = 'none';new SimpleMDE({ element: document.getElementById('edit-{{ example.id }}')});">Edit</a><form class="remove" name="remove" action="/remove-example/{{ example.id }}?next={{ url }}" method="post">
+                            {% if example.user-id == session.id %}<a href="#" class="remove" onclick="document.getElementById('edit-{{ example.id }}').parentElement.style.display = '';document.getElementById('example-{{ example.id }}').style.display = 'none';new SimpleMDE({ element: document.getElementById('edit-{{ example.id }}')});">Edit</a><form class="remove" name="remove" action="/remove-example/{{ example.id }}?next={{ url }}" method="post">
                                 <a href="#" onclick="document.remove.submit();">Remove</a>
                             </form>
                             {% endif %}
