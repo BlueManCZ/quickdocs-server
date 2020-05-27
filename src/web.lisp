@@ -273,7 +273,7 @@
 
     (let ((systems (filter-system system (project-systems project)))
           (examples (retrieve-all
-                      (select (:examples.id :user_id :converted :avatar_url :login :user_name)
+                      (select (:examples.id :user_id :converted :avatar_url :login :user_name :markdown)
                         (from :examples)
                         (left-join :users :on (:= :examples.user_id :users.id))
                         (where (:and (:= :project_name project-name)
@@ -314,16 +314,34 @@
                 :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "text")))) :from "markdown-raw_html"))))))
   (redirect (format nil "/~A/api/~A/~A/~A" project-name system package symbol)))
 
+@route POST "/edit-example/:id"
+(defun edit-example (&key id |next| _parsed)
+  (let ((param (reduce (lambda (ac it) (append ac (list (intern (string-upcase (car it))) (cdr it)))) _parsed :initial-value '()))
+        (user-id (retrieve-one
+                    (select :user_id
+                      (from :examples)
+                      (where (:= :id id))))))
+    (if (and (gethash :id *session*) (getf user-id :user-id) (= (getf user-id :user-id) (gethash :id *session*)))
+      (progn
+        (execute
+          (update :examples
+            (set= :markdown (getf param (intern (string-upcase "edit")))
+                  :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "edit")))) :from "markdown-raw_html"))))
+        (redirect |next|))
+      "You have no rights to perform this action.")))
+
 @route POST "/remove-example/:id"
-(defun remove-comment (&key id)
+(defun remove-comment (&key |next| id)
   (let ((user-id (retrieve-one
                     (select :user_id
                       (from :examples)
                       (where (:= :id id))))))
     (if (and (gethash :id *session*) (getf user-id :user-id) (= (getf user-id :user-id) (gethash :id *session*)))
-      (execute
-        (delete-from :examples
-          (where (:= :id id))))
+      (progn
+        (execute
+          (delete-from :examples
+            (where (:= :id id))))
+        (redirect |next|))
       "You have no rights to perform this action.")))
 
 @route GET "/search"

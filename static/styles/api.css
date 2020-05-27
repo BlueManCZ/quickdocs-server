@@ -140,7 +140,8 @@ h4 {
   padding-left: 90px; }
   .dock h1 {
     font-size: 23px !important;
-    margin-left: 10px; }
+    margin-left: 10px;
+    height: 28px; }
   .dock .collumn, .dock .content-collumn {
     position: relative;
     display: inline-block;
@@ -149,12 +150,13 @@ h4 {
     overflow: auto;
     max-height: calc(100% - 60px); }
   .dock .content-collumn {
-    width: calc(100% - 495px);
+    width: calc(100% - 510px);
     margin-left: 15px;
-    max-height: calc(100% - 80px);
+    max-height: calc(100% - 60px);
     height: auto;
     padding-right: 15px;
-    box-sizing: border-box; }
+    padding-top: 58px;
+    top: -58px; }
   .dock .tile {
     display: inline-block;
     background: white;
@@ -416,7 +418,8 @@ h4 {
   position: relative;
   margin-left: 5px; }
 #examples .remove {
-  display: inline-block; }
+  display: inline-block;
+  color: grey; }
   #examples .remove a {
     color: grey; }
     #examples .remove a:hover {

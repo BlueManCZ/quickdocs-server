@@ -137,12 +137,17 @@
                         <header>
                             <img class="avatar" alt="Avatar image" src="{{ example.avatar-url }}" title="{% if example.user-name %}{{ example.user-name}}{% else %}{{example.login }}{% endif %}">
                             <span class="title"><b>{{ example.login }}</b> created an example. </span>
-                            {% if example.user-id == session.id %}<form class="remove" action="/remove-example/{{ example.id }}" method="post">
-                                <a href="#">Remove</a>
+                            {% if not example.user-id == session.id %}<a href="#" class="remove" onclick="document.getElementById('edit-{{ example.id }}').parentElement.style.display = '';document.getElementById('example-{{ example.id }}').style.display = 'none';new SimpleMDE({ element: document.getElementById('edit-{{ example.id }}')});">Edit</a><form class="remove" name="remove" action="/remove-example/{{ example.id }}?next={{ url }}" method="post">
+                                <a href="#" onclick="document.remove.submit();">Remove</a>
                             </form>
                             {% endif %}
                         </header>
-                        <div class="example">{{ example.converted | safe }}</div>
+                        <div class="example" id="example-{{ example.id }}">{{ example.converted | safe }}</div>
+                        <form method="post" action="/edit-example/{{ example.id }}?next={{ url }}" style="display: none">
+                            <textarea id="edit-{{ example.id }}" name="edit" rows="8" cols="80">{{ example.markdown }}</textarea>
+                            <input type="submit" value="Edit">
+                            <button onclick="location.reload();return false">Cancel</button>
+                        </form>
                     {% endfor %}
                 </div>
                 <script>
@@ -168,11 +173,11 @@
             </article>
             <article>
                 <div class="system" style="padding-left: 0">
-                    {% if session.login %}
+                    {% if not session.login %}
                     <h3 class="small-title">Create example</h3>
                     <form method="post">
                         <textarea id="text" name="text" rows="8" cols="80"></textarea>
-                        <input type="submit" value="Odeslat">
+                        <input type="submit" value="Send">
                     </form>
                     {% else %}
                     <div class="signin">You must <a class="link" href="/login{% if url %}?next={{ url }}{% endif %}">sign in</a> to create a new example.</div>
@@ -183,7 +188,7 @@
 </div>
 
 <script>
-    var simplemde = new SimpleMDE({showIcons: ["code", "table"]});
+    new SimpleMDE({showIcons: ["code", "table"], element: document.getElementById("text")});
 </script>
 
 {% endblock %}
