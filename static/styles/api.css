@@ -427,21 +427,30 @@ h4 {
   padding: 0 10px;
   border: solid 1px #eaeaea;
   border-radius: 4px; }
+  .example code, .example .system .api ul .lambda-list, .system .api ul .example .lambda-list, .example .system .api ul .initial-value, .system .api ul .example .initial-value {
+    font-family: Cantarell, Verdana, sans-serif;
+    background: #f0f0f0;
+    padding: 1px 4px;
+    font-size: 87%;
+    font-weight: bold;
+    border-radius: 5px;
+    text-transform: uppercase;
+    display: inline-block; }
   .example pre {
     border-radius: 5px;
     overflow-x: auto;
     box-shadow: 0 0 2px #a6a6a6;
     border: none; }
-  .example code, .example .system .api ul .lambda-list, .system .api ul .example .lambda-list, .example .system .api ul .initial-value, .system .api ul .example .initial-value {
-    display: block;
-    padding: 7px 8px 6px;
-    line-height: 1.3;
-    text-transform: none;
-    font-family: Hack, monospace;
-    color: silver;
-    font-size: 15px;
-    font-weight: normal;
-    background: #333; }
+    .example pre code, .example pre .system .api ul .lambda-list, .system .api ul .example pre .lambda-list, .example pre .system .api ul .initial-value, .system .api ul .example pre .initial-value {
+      display: block;
+      padding: 7px 8px 6px;
+      line-height: 1.3;
+      text-transform: none;
+      font-family: monospace;
+      color: silver;
+      font-size: 15px;
+      font-weight: normal;
+      background: #333; }
   .example h1 {
     margin: 10px 0 15px 0; }
 

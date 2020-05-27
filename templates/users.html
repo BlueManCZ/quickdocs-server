@@ -6,6 +6,7 @@
 
 {% block body %}
     <div class="specify">
+        <h3>Our users and contributors:</h3>
         <table class="users">
         {% for user in users %}
             <tr>
@@ -18,6 +19,7 @@
             </tr>
         {% endfor %}
         </table>
+        <h3><a class="link" href="/login?next=/users">Sign-in</a> and join us.</h3>
     </div>
-    
+    {% include "partials/footer.html" %}
 {% endblock %}

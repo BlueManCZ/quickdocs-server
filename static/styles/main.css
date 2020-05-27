@@ -433,8 +433,7 @@ main {
 .github {
   background: #153e62;
   display: inline-block;
-  margin: auto;
-  margin-bottom: 50px;
+  margin: 30px 45px 50px;
   color: white;
   padding: 15px 30px;
   text-decoration: none;
@@ -445,6 +444,10 @@ main {
   .github:hover {
     transform: scale(1.03);
     box-shadow: 0 0 10px silver; }
+
+.lisp {
+  vertical-align: top;
+  margin: 0 20px; }
 
 .banner form {
   position: absolute;

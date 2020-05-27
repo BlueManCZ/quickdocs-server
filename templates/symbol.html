@@ -32,20 +32,25 @@
         </div><div class="tile">
             <h2>Details</h2>
             <p>Selected system</p>
-            <h1 class="highlight" id="current-system">1am</h1>
+            <h1 class="highlight" id="current-system">Unknown</h1>
             <p>System description</p>
-            <h4>A minimal testing framework.</h4>
+            <h4 id="system-description">Unknown</h4>
             <p>Selected package</p>
-            <h1 class="highlight" id="current-package">1AM</h1>
+            <h1 class="highlight" id="current-package">Unknown</h1>
+            <p id="package-description-title">Package description</p>
+            <h4 id="package-description">Unknown</h4>
         </div>
     </div><div class="content-collumn">
         <div class="tile">
             {% for system in systems %}
             <article>
                 <div class="system" id="system-{{ system.name }}">
+                    <div id="system-{{ system.name }}-description" style="display: none">{{ system.description }}</div>
                     <div class="api">
                     {% for package in system.packages %}
-                      <section class="package" style="border: none">
+                      <div id="package-{{ package.name }}-description" style="display: none">{{ package.docstring }}</div>
+                      <section class="package" id="package-{{ package.name }}">
+                        <script>showSelected("{{ system.name }}", "{{ package.name }}")</script>
                         {% if package.external-symbols %}
                         <h2>Selected symbol</h2>
                         <ul>

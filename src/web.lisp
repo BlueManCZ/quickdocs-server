@@ -199,7 +199,7 @@
 (defun categories ()
   (render #P"categories.html"))
 
-@route GET "/docs/"
+#|@route GET "/docs/"
 (defun docs (&key page)
   (render #P"docs/index.html"))
 
@@ -210,7 +210,7 @@
     ((string-equal page "about") (render #P"docs/about.html"))
     ((string-equal page "examples") (render #P"docs/examples.html"))
     ((eq NIL page) (render #P"docs/index.html"))
-    (t (throw-code 404))))
+    (t (throw-code 404))))|#
 
 @route GET "/:project-name/"
 (defun project-page (&key project-name |force-raw|)

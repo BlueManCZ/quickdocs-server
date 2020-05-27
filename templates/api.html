@@ -48,11 +48,11 @@
         </div><div class="tile">
             <h2>Details</h2>
             <p>Selected system</p>
-            <h1 class="highlight" id="current-system">1am</h1>
+            <h1 class="highlight" id="current-system">Unknown</h1>
             <p>System description</p>
             <h4 id="system-description">Unknown</h4>
             <p>Selected package</p>
-            <h1 class="highlight" id="current-package">1AM</h1>
+            <h1 class="highlight" id="current-package">Unknown</h1>
             <p id="package-description-title">Package description</p>
             <h4 id="package-description">Unknown</h4>
         </div>
@@ -64,7 +64,7 @@
                     <div id="system-{{ system.name }}-description" style="display: none">{{ system.description }}</div>
                     <div class="api">
                     {% for package in system.packages %}
-                        <div id="package-{{ package.name }}-description" style="display: none">{{ package.docstring }}</div>
+                      <div id="package-{{ package.name }}-description" style="display: none">{{ package.docstring }}</div>
                       <section class="package" id="package-{{ package.name }}">
                         {% if package.external-symbols %}
                         <h2>Symbols in package <span class="highlight">{{ package.name }}</span></h2>
