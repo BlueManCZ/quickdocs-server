@@ -326,7 +326,8 @@
         (execute
           (update :examples
             (set= :markdown (getf param (intern (string-upcase "edit")))
-                  :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "edit")))) :from "markdown-raw_html"))))
+                  :converted (pandoc (make-string-input-stream (getf param (intern (string-upcase "edit")))) :from "markdown-raw_html"))
+            (where (:= :id id))))     
         (redirect |next|))
       "You have no rights to perform this action.")))
 
