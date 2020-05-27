@@ -173,7 +173,7 @@
             </article>
             <article>
                 <div class="system" style="padding-left: 0">
-                    {% if not session.login %}
+                    {% if session.login %}
                     <h3 class="small-title">Create example</h3>
                     <form method="post">
                         <textarea id="text" name="text" rows="8" cols="80"></textarea>
