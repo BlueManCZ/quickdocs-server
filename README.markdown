@@ -1,20 +1,15 @@
-# quickdocs-server
+# Colidocs
 
-
-
-## Usage
-
-## Installation
+This is a fork of [quickdocs-server](https://github.com/quickdocs/quickdocs-server) aimed at streamlining the documentation and improving the API references.
 
 ## Author
 
-* Eitaro Fukamachi (e.arrows@gmail.com)
+* Ivo Šmerek
 
 ## Copyright
 
-Copyright (c) 2015 Eitaro Fukamachi (e.arrows@gmail.com)
+Copyright (c) 2020 Ivo Šmerek
 
 # License
 
 Licensed under the BSD 2-Clause License.
-
