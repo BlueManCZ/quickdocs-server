@@ -28,10 +28,10 @@
   font-family: Hack;
   font-weight: bold;
   src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
-.link, #global-footer small a {
+.link {
   text-decoration: none;
   color: #408ACA; }
-  .link:hover, #global-footer small a:hover {
+  .link:hover {
     color: #2d5b88;
     text-decoration: underline; }
 
@@ -111,10 +111,10 @@
   font-family: Hack;
   font-weight: bold;
   src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
-.link, #global-footer small a {
+.link {
   text-decoration: none;
   color: #408ACA; }
-  .link:hover, #global-footer small a:hover {
+  .link:hover {
     color: #2d5b88;
     text-decoration: underline; }
 
@@ -286,10 +286,10 @@
   font-family: Hack;
   font-weight: bold;
   src: url("/fonts/Hack-Bold.ttf") format("truetype"); }
-.link, #global-footer small a {
+.link {
   text-decoration: none;
   color: #408ACA; }
-  .link:hover, #global-footer small a:hover {
+  .link:hover {
     color: #2d5b88;
     text-decoration: underline; }
 
@@ -342,9 +342,8 @@
 #global-footer {
   text-align: center;
   padding-top: 40px;
-  padding-bottom: 20px; }
-  #global-footer small {
-    font-family: Cantarell, Verdana, sans-serif; }
+  padding-bottom: 20px;
+  font-family: Cantarell, Verdana, sans-serif; }
 
 body {
   background: white;
@@ -359,21 +358,33 @@ body {
 
 #particles-js {
   margin: 0;
-  height: 210px;
+  height: 350px;
   width: 100%;
   position: relative;
   background: #153e62; }
-  #particles-js h2 {
-    margin: 0;
-    text-align: center;
+  #particles-js h2, #particles-js h3 {
+    position: relative;
     color: white;
     font-family: Cantarell, Verdana, sans-serif;
-    top: 80px;
-    position: relative;
-    font-size: 34px;
-    text-shadow: 2px 2px 2px #444;
+    font-weight: bold;
+    margin: 0;
     height: 0;
-    font-weight: normal; }
+    left: 60px;
+    text-shadow: 2px 2px 2px #444;
+    top: 80px;
+    font-size: 46px; }
+  #particles-js h3 {
+    font-size: 22px;
+    top: 210px;
+    max-width: 540px; }
+  #particles-js .image {
+    display: block;
+    position: absolute;
+    right: 100px;
+    width: 370px;
+    top: 70px;
+    border-radius: 10px;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.3); }
 
 main {
   font-family: Cantarell, Verdana, sans-serif; }
@@ -393,7 +404,8 @@ main {
       box-sizing: border-box; }
       main .tile .container img {
         width: 100%;
-        filter: invert(1); }
+        filter: invert(1);
+        -webkit-filter: invert(1); }
     main .tile h3 {
       font-size: 23px;
       font-weight: bold;

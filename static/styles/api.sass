@@ -33,28 +33,43 @@ body
 h4
   margin-top: 5px
 
+.left-panel
+  position: fixed
+  background: white
+  width: 70px
+  height: calc(100% - 60px)
+  overflow: hidden
+  border-right: solid 1px #e6e6e6
+  z-index: 10
+  padding-top: 10px
 
-.head
-  padding-bottom: 38px
-  background: $background5
-  border-bottom: 1px solid #e8e7e7
+  .item
+    display: block
+    position: relative
+    height: 50px
+    cursor: pointer
 
-  h2
-    font-weight: normal
-    font-size: 20px
-    margin: 30px 0 15px
+    &:hover
+      background: #f9f9f9
 
-  table
-    border-radius: 18px
-    overflow: hidden
-    border-spacing: 3px
-    margin-left: -4px
-    font-size: 15px
+    .parent
+      width: 70px
+      line-height: 50px
+      text-align: center
+      display: inline-block
 
-    td, th
-      text-align: left
-      padding: 4px 7px
-      background: white
+      img
+        width: 30px
+        filter: invert(0.6)
+        -webkit-filter: invert(0.6)
+        line-height: 50px
+        display: inline-block
+        vertical-align: middle
+        margin-right: 2px
+        margin-bottom: 2px
+
+    span
+      display: none
 
 .dock
   background: #fbfbfb
@@ -92,8 +107,7 @@ h4
     width: 100%
     border: solid 1px #e6e6e6
     border-radius: 4px
-    padding: 0 18px
-    padding-bottom: 15px
+    padding: 0 18px 15px
     margin-bottom: 15px
     box-sizing: border-box
     height: 100%
@@ -154,7 +168,6 @@ h4
       color: transparent
       text-shadow: 0 0 0 #000
 
-
     .search
       width: 100%
       box-sizing: border-box
@@ -165,88 +178,7 @@ h4
       padding-left: 12px
       border-radius: 4px
 
-.left-panel
-  position: fixed
-  background: white
-  width: 70px
-  height: calc(100% - 60px)
-  overflow: hidden
-  border-right: solid 1px #e6e6e6
-  z-index: 10
-  padding-top: 10px
-
-  .item
-    display: block
-    position: relative
-    height: 50px
-    cursor: pointer
-
-    &:hover
-      background: #f9f9f9
-
-    .parent
-      width: 70px
-      line-height: 50px
-      text-align: center
-      display: inline-block
-
-      img
-        width: 30px
-        filter: invert(0.6)
-        line-height: 50px
-        display: inline-block
-        vertical-align: middle
-        margin-right: 2px
-        margin-bottom: 2px
-
-    span
-      display: none
-  /*h3
-    @extend h3
-
-  /*.item
-    color: $color1
-    text-decoration: none
-    border: solid 1px
-    padding: 4px 8px
-    border-radius: 3px
-    margin-right: 8px
-    outline: none
-    background: white
-
-
 .system
-  position: relative
-
-  .toc
-    display: inline-block
-    position: absolute
-    left: 0
-
-    .toc-packages
-      text-decoration: none
-      color: $color5
-      font-size: 15px
-
-      a
-        outline: none
-
-  .package
-    position: relative
-
-  h3
-  //  @extend h3
-  //  padding: 30px 0 15px
-
-  h1
-  //  margin: 0
-  //  margin-top: -9px
-
-  .bookmark
-    display: block
-    position: absolute
-    top: -55px
-
   .api
     table
       position: relative
@@ -297,7 +229,6 @@ h4
       background: #aaa
 
     .function
-      //background: rgba(77, 119, 203, 0.7)
       background: rgba(11, 111, 31, 0.7)
 
     .condition, .generic-function
@@ -325,28 +256,6 @@ h4
         position: relative
         display: block
         width: 100%
-
-      .macro
-        background: rgba(153, 51, 204, 0.7)
-
-      .type
-        background: #aaa
-
-      .function
-        //background: rgba(77, 119, 203, 0.7)
-        background: rgba(11, 111, 31, 0.7)
-
-      .condition, .generic-function
-        background: #333
-
-      .method
-        background: rgba(46, 83, 157, 0.7)
-
-      .variable
-        background: rgba(52, 178, 125, 0.7)
-
-      .class
-        background: rgba(224, 153, 82, 0.7)
 
       code
         font-family: Hack, monospace
@@ -385,9 +294,6 @@ h4
 
     .also-exports
       margin-bottom: 15px
-
-    .nothing
-      //margin-top: 25px
 
     .slot-list
       border-spacing: inherit
@@ -475,13 +381,6 @@ h4
 
 .CodeMirror-scroll
   cursor: text
-
-/*.CodeMirror-line
-  overflow-y: auto !important
-
-/*.cm-comment
-  background: rgb(242, 242, 242)
-  box-shadow: 1000px 0 0 1000px rgb(242, 242, 242)
 
 .cm-comment
   font-family: $font2

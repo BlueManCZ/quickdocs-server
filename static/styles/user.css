@@ -126,9 +126,7 @@ body {
     line-height: 25px; }
   .right-column .example {
     width: 50%;
-    padding: 20px;
-    padding-right: 0;
-    padding-top: 0;
+    padding: 0 0 20px 20px;
     display: inline-block;
     box-sizing: border-box;
     white-space: pre;

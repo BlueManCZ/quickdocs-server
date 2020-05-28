@@ -17,7 +17,7 @@
             <ul class="search-result-container">
             {% for project in projects %}
               <li class="search-result">
-                <h2><a class="project-name" href="/{{ project.name | urlencode }}/">{{ project.name }}</a></h2>
+                <a class="project-name" href="/{{ project.name | urlencode }}/">{{ project.name }}</a>
                 <span class="ql-version" title="Quicklisp version">{{ project.release-version }}</span>
                 <p class="description">{{ project.description }}</p>
                   <p class="api">{{ project.systems }} system{% if project.systems > 1%}s{% endif %} in

@@ -111,11 +111,10 @@
       padding-left: 0;
       border-bottom: solid 1px #e4e4e4;
       padding-bottom: 20px; }
-      .content .search-result-container .search-result h2 {
+      .content .search-result-container .search-result .project-name {
         display: inline-block;
         margin: 0;
-        font-weight: normal; }
-      .content .search-result-container .search-result .project-name {
+        font-weight: normal;
         font-size: 22px;
         text-decoration: none;
         color: #408ACA; }
