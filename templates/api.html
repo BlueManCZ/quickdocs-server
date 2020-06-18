@@ -29,7 +29,7 @@
             <h2>API browser</h2>
             <label>
                 Select package<br>
-                <select id="select" oninput="showSelected(this.selectedOptions[0].parentElement.getAttribute('label'), this.selectedOptions[0].innerHTML)">
+                <select id="select" onchange="showSelected(this.selectedOptions[0].parentElement.getAttribute('label'), this.selectedOptions[0].innerHTML)">
                     {% for system in systems %}
                     <optgroup label="{{ system.name }}">
                         {% for package in system.packages %}
