@@ -335,7 +335,8 @@ h4 {
   padding: 2px 7px;
   border-radius: 4px;
   background: #fdfdfd;
-  width: auto; }
+  width: auto;
+  margin-top: 10px; }
   .system .api .slot-list td {
     padding: 0; }
   .system .api .slot-list .symbol-name {
